@@ -7,8 +7,10 @@ import type { Product } from "@/lib/types";
 // Flaxseed Oil are provisionally marked SPECIALTY as they are commonly sold as
 // wellness/nutritional oils rather than everyday cooking oil — this default
 // should be confirmed against the actual Shuddhodhan product labels before
-// launch. `heroImage`/`gallery` are intentionally empty until real product
-// photography is supplied; the UI renders a labelled placeholder instead of a
+// launch. `heroImage`/`gallery` point at real Shuddhodhan product photography
+// (supplied via Google Drive, resized/re-encoded, EXIF stripped) for the
+// products photographed so far; products without supplied photos keep
+// heroImage: null and the UI renders a labelled placeholder instead of a
 // fabricated image.
 
 export const products: Product[] = [
@@ -20,8 +22,8 @@ export const products: Product[] = [
       "Wood cold pressed groundnut oil, extracted using the traditional Kachi Ghani process.",
     intendedUse: "CULINARY",
     category: "Groundnut",
-    heroImage: null,
-    gallery: [],
+    heroImage: "/products/groundnut-oil/hero.jpg",
+    gallery: ["/products/groundnut-oil/gallery-1.jpg", "/products/groundnut-oil/gallery-2.jpg"],
     featured: true,
     active: true,
     variants: [
@@ -39,8 +41,8 @@ export const products: Product[] = [
       "Wood cold pressed virgin coconut oil, extracted using the traditional Kachi Ghani process.",
     intendedUse: "CULINARY",
     category: "Coconut",
-    heroImage: null,
-    gallery: [],
+    heroImage: "/products/virgin-coconut-oil/hero.jpg",
+    gallery: ["/products/virgin-coconut-oil/gallery-1.jpg", "/products/virgin-coconut-oil/gallery-2.jpg"],
     featured: true,
     active: true,
     variants: [
@@ -57,8 +59,8 @@ export const products: Product[] = [
       "Wood cold pressed black mustard oil, extracted using the traditional Kachi Ghani process.",
     intendedUse: "CULINARY",
     category: "Mustard",
-    heroImage: null,
-    gallery: [],
+    heroImage: "/products/black-mustard-oil/hero.jpg",
+    gallery: ["/products/black-mustard-oil/gallery-1.jpg", "/products/black-mustard-oil/gallery-2.jpg"],
     featured: true,
     active: true,
     variants: [
@@ -96,8 +98,8 @@ export const products: Product[] = [
       "Wood cold pressed white sesame oil, extracted using the traditional Kachi Ghani process.",
     intendedUse: "CULINARY",
     category: "Sesame",
-    heroImage: null,
-    gallery: [],
+    heroImage: "/products/white-sesame-oil/hero.jpg",
+    gallery: ["/products/white-sesame-oil/gallery-1.jpg", "/products/white-sesame-oil/gallery-2.jpg"],
     featured: true,
     active: true,
     variants: [
@@ -132,8 +134,8 @@ export const products: Product[] = [
       "Wood cold pressed sunflower oil, extracted using the traditional Kachi Ghani process.",
     intendedUse: "CULINARY",
     category: "Sunflower",
-    heroImage: null,
-    gallery: [],
+    heroImage: "/products/sunflower-oil/hero.jpg",
+    gallery: ["/products/sunflower-oil/gallery-1.jpg"],
     featured: false,
     active: true,
     variants: [
@@ -167,8 +169,8 @@ export const products: Product[] = [
       "Wood cold pressed almond oil, extracted using the traditional Kachi Ghani process.",
     intendedUse: "SPECIALTY",
     category: "Specialty",
-    heroImage: null,
-    gallery: [],
+    heroImage: "/products/almond-oil/hero.jpg",
+    gallery: ["/products/almond-oil/gallery-1.jpg", "/products/almond-oil/gallery-2.jpg"],
     featured: false,
     active: true,
     variants: [
@@ -199,8 +201,8 @@ export const products: Product[] = [
       "Wood cold pressed castor oil. Intended for topical/household use — not an everyday edible cooking oil.",
     intendedUse: "NON_CULINARY",
     category: "Specialty",
-    heroImage: null,
-    gallery: [],
+    heroImage: "/products/castor-oil/hero.jpg",
+    gallery: ["/products/castor-oil/gallery-1.jpg", "/products/castor-oil/gallery-2.jpg"],
     featured: false,
     active: true,
     variants: [

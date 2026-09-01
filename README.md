@@ -65,7 +65,7 @@ npm run dev
 |---|---|---|
 | Homepage, brand sections | READY | Copy avoids invented claims/certifications. |
 | Product catalogue & pricing | READY | Prices/MRP copied verbatim from the supplied rate list. Do not edit without an updated rate list. |
-| Product photography / hero imagery | **MISSING** | Placeholder art shown; drop real photos into `/public` and set `heroImage`/`gallery` in `lib/data/products.ts`. |
+| Product photography / hero imagery | READY for 7/11 oils | Real Shuddhodhan photography in `public/products/<slug>/` (resized, compressed, EXIF stripped) for Groundnut, Black Mustard, Virgin Coconut, White Sesame, Sunflower, Almond and Castor. Yellow Mustard, Black Sesame, Safflower and Flaxseed still show the honest placeholder pending photos. |
 | Video/Reels CMS | READY (structure) — **MOCKED** (no content) | `lib/data/videos.ts` is empty by design; add real `VideoItem` entries to activate the homepage section. |
 | Cart | READY | Client-side, persisted to `localStorage`. |
 | Indore local shipping | CONFIGURED, needs real values | Rules are wired up; `INDORE_SERVICEABLE_PINCODES` is empty until supplied — nothing is assumed serviceable. |
@@ -81,7 +81,8 @@ npm run dev
 
 ## What's needed from the business before this can go fully live
 
-1. Real product photography (hero + gallery images per oil).
+1. Real product photography for the remaining 4 oils (Yellow Mustard, Black
+   Sesame, Safflower, Flaxseed) — same drop-in process as the other 7.
 2. Real Shuddhodhan videos/Reels (file or hosted URL, title, description, category).
 3. WhatsApp support number.
 4. Meta Pixel ID and GA4 Measurement ID.

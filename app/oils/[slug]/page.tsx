@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { AnnouncementBar } from "@/components/layout/announcement-bar";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
-import { ProductImage } from "@/components/product/product-image";
+import { ProductGallery } from "@/components/product/product-gallery";
 import { ProductDetailPurchase } from "@/components/product/product-detail-purchase";
 import { getProductBySlug, products } from "@/lib/data/products";
 import { siteSettings } from "@/lib/data/settings";
@@ -70,9 +70,11 @@ export default async function ProductPage({
 
       <main className="pb-24 md:pb-0">
         <section className="container-page grid gap-10 py-10 md:grid-cols-2 md:py-14">
-          <div className="relative aspect-square overflow-hidden rounded-lg">
-            <ProductImage src={product.heroImage} alt={product.name} />
-          </div>
+          <ProductGallery
+            heroImage={product.heroImage}
+            gallery={product.gallery}
+            alt={product.name}
+          />
 
           <div>
             <p className="eyebrow text-mustard">{USE_LABEL[product.intendedUse]}</p>
