@@ -107,11 +107,14 @@ export function ProductDetailPurchase({ product }: { product: Product }) {
         <button
           type="button"
           onClick={handleAdd}
-          className="flex-1 rounded-full bg-mustard px-6 py-3 text-sm font-semibold text-warm-white transition-colors hover:bg-oil-dark md:flex-none md:px-10"
+          className="hidden flex-1 rounded-full bg-mustard px-6 py-3 text-sm font-semibold text-warm-white transition-colors hover:bg-oil-dark md:block md:flex-none md:px-10"
         >
           Add to Cart
         </button>
       </div>
+      <p className="mt-2 text-xs text-brown-500 md:hidden">
+        Use Add to Cart in the bar below.
+      </p>
 
       {/* Mobile sticky purchase bar */}
       <div className="fixed inset-x-0 bottom-0 z-30 flex items-center justify-between gap-3 border-t border-stone/60 bg-warm-white p-3 shadow-[0_-2px_10px_rgba(0,0,0,0.06)] md:hidden">
