@@ -77,7 +77,11 @@ npm run dev
 | Meta Pixel / GA4 | READY, **NOT CONNECTED** | No-ops until `NEXT_PUBLIC_META_PIXEL_ID` / `NEXT_PUBLIC_GA4_MEASUREMENT_ID` are set. |
 | Meta Conversions API (server-side) | READY, **NOT CONNECTED** | Implemented in `lib/analytics/meta-capi.ts`, fired on verified payment; no-ops until `META_CAPI_ACCESS_TOKEN` is set. |
 | Reviews | READY (structure), empty | No fabricated testimonials/ratings — `lib/data/reviews.ts` is empty until real reviews are collected. |
-| Legal pages | PLACEHOLDER | Section headings only; final legal text must be supplied. |
+| Legal pages | READY (structure), placeholder text | 8 pages: Privacy, Terms, Shipping, Refund/Return/Cancellation, Payment, Grievance Redressal, Cookie Policy, Disclaimer — premium layout with sticky TOC. Section headings and structure are final; body text is a working draft pending legal review. |
+| Grievance Redressal | READY (structure), officer TBD | `/legal/grievance-redressal` shows the Grievance Officer's name/designation/email/phone/address once `NEXT_PUBLIC_GRIEVANCE_OFFICER_*` env vars are set; honestly shows "Not yet configured" until then. |
+| Contact page | READY, channels TBD | `/contact` shows phone/WhatsApp/email/hours from config; each shows "Not yet configured" until set. |
+| Track Order | READY, functional | `/track-order` looks up a real order by Order Number against `/api/orders/[orderId]` and shows a status timeline. Carrier tracking is MOCKED (see Shipment creation row) — labelled as such on the page. Mobile/email verification is a documented future step, not yet enforced. |
+| Footer | READY | Shop / Discover / Customer Care / Legal / Connect columns plus a statutory bottom bar (legal entity, address, FSSAI, GSTIN) — all pull from config and omit any field that isn't set, never showing invented placeholders to visitors. |
 | WhatsApp button | CONFIGURED, needs a number | Hidden until `NEXT_PUBLIC_WHATSAPP_NUMBER` is set. |
 
 ## What's needed from the business before this can go fully live
@@ -92,9 +96,15 @@ npm run dev
    AND for shipment creation/tracking (`lib/logistics/`).
 7. The list of serviceable Indore pincodes and the local delivery rate rules.
 8. Genuine customer reviews.
-9. Finalized legal policy text (privacy, terms, shipping, refund, payment).
+9. Finalized legal policy text (all 8 policy pages), reviewed by a qualified
+   legal professional.
 10. The Supabase `SUPABASE_SERVICE_ROLE_KEY` (from Project Settings > API) to
     switch order storage on — the project and schema already exist.
+11. Legal entity name, registered address, FSSAI license number, GSTIN (if
+    applicable), and Grievance Officer details (name/designation/email/
+    phone/address) — see the new `NEXT_PUBLIC_LEGAL_*` and
+    `NEXT_PUBLIC_GRIEVANCE_OFFICER_*` vars in `.env.example`.
+12. Support phone number and business hours for the Contact page.
 
 ## Scripts
 

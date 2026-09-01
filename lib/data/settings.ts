@@ -34,6 +34,7 @@ export const siteSettings = {
   contact: {
     // Placeholder pending real business contact details.
     supportEmail: process.env.NEXT_PUBLIC_SUPPORT_EMAIL || "",
+    supportPhone: process.env.NEXT_PUBLIC_SUPPORT_PHONE || "",
     whatsappNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "",
     whatsappDefaultMessage:
       "Hello Shuddhodhan, I need help choosing the right oil.",
@@ -43,6 +44,27 @@ export const siteSettings = {
     instagram: process.env.NEXT_PUBLIC_INSTAGRAM_URL || "",
     youtube: process.env.NEXT_PUBLIC_YOUTUBE_URL || "",
     facebook: process.env.NEXT_PUBLIC_FACEBOOK_URL || "",
+  },
+
+  legal: {
+    // Bottom-of-footer statutory details. All placeholders until the
+    // business supplies real, verified values — never invented here.
+    entityName: process.env.NEXT_PUBLIC_LEGAL_ENTITY_NAME || "",
+    registeredAddress: process.env.NEXT_PUBLIC_REGISTERED_ADDRESS || "",
+    fssaiLicenseNumber: process.env.NEXT_PUBLIC_FSSAI_LICENSE_NUMBER || "",
+    gstin: process.env.NEXT_PUBLIC_GSTIN || "",
+  },
+
+  businessHours: process.env.NEXT_PUBLIC_BUSINESS_HOURS || "",
+
+  grievanceOfficer: {
+    // Required under the Consumer Protection (E-Commerce) Rules, 2020.
+    // Placeholders until the business names and confirms a real officer.
+    name: process.env.NEXT_PUBLIC_GRIEVANCE_OFFICER_NAME || "",
+    designation: process.env.NEXT_PUBLIC_GRIEVANCE_OFFICER_DESIGNATION || "",
+    email: process.env.NEXT_PUBLIC_GRIEVANCE_OFFICER_EMAIL || "",
+    phone: process.env.NEXT_PUBLIC_GRIEVANCE_OFFICER_PHONE || "",
+    address: process.env.NEXT_PUBLIC_GRIEVANCE_OFFICER_ADDRESS || "",
   },
 
   analytics: {
