@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { siteSettings } from "@/lib/data/settings";
 
 const OIL_LINKS = [
@@ -21,7 +22,13 @@ export function Footer() {
     <footer className="border-t border-stone/60 bg-brown-900 text-warm-white">
       <div className="container-page grid gap-10 py-14 md:grid-cols-4">
         <div>
-          <p className="font-serif text-xl">SHUDDHODHAN</p>
+          <Image
+            src="/brand/logo-mark.png"
+            alt="Shuddhodhan"
+            width={900}
+            height={348}
+            className="h-14 w-auto"
+          />
           <p className="mt-3 text-sm text-warm-white/70">
             {siteSettings.brandTagline}
           </p>

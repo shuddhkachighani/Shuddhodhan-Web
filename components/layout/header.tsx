@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { useCart } from "@/lib/cart/cart-context";
 
@@ -18,8 +19,15 @@ export function Header() {
   return (
     <header className="sticky top-0 z-30 border-b border-stone/70 bg-warm-white/95 backdrop-blur">
       <div className="container-page flex h-16 items-center justify-between">
-        <Link href="/" className="font-serif text-xl tracking-wide text-brown-900 sm:text-2xl">
-          SHUDDHODHAN
+        <Link href="/" className="flex items-center" aria-label="Shuddhodhan home">
+          <Image
+            src="/brand/logo-mark.png"
+            alt="Shuddhodhan"
+            width={900}
+            height={348}
+            priority
+            className="h-10 w-auto sm:h-12"
+          />
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex">

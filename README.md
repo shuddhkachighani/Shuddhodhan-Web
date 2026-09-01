@@ -64,6 +64,7 @@ npm run dev
 | Area | Status | Notes |
 |---|---|---|
 | Homepage, brand sections | READY | Copy avoids invented claims/certifications. |
+| Logo | READY | Real Shuddhodhan logo in `public/brand/` (`logo-mark.png` for header/footer, `logo-full.png` for larger uses), cropped from the supplied source. Used as the app icon/favicon too (`app/icon.png`). |
 | Product catalogue & pricing | READY | Prices/MRP copied verbatim from the supplied rate list. Do not edit without an updated rate list. |
 | Product photography / hero imagery | READY for 7/11 oils | Real Shuddhodhan photography in `public/products/<slug>/` (resized, compressed, EXIF stripped) for Groundnut, Black Mustard, Virgin Coconut, White Sesame, Sunflower, Almond and Castor. Yellow Mustard, Black Sesame, Safflower and Flaxseed still show the honest placeholder pending photos. |
 | Video/Reels CMS | READY, 2 real Reels live | `lib/data/videos.ts` has 2 real Shuddhodhan Reels (transcoded to 720p H.264, posters generated) in `public/videos/reels/`. Add more `VideoItem` entries the same way as more Reels are supplied. |
