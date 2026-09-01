@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { razorpayProvider } from "@/lib/payment/razorpay-provider";
 import { getOrder, updateOrder } from "@/lib/orders/store";
+import { fulfillPaidOrder } from "@/lib/orders/fulfillment";
+import { sendPurchaseCapiEvent } from "@/lib/analytics/meta-capi";
 
 // Server-to-server webhook — the only place an order is ever marked "paid".
 // A frontend payment-success callback is never trusted on its own (spec
@@ -23,7 +25,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Missing order_id in webhook notes." }, { status: 400 });
   }
 
-  const existingOrder = getOrder(orderId);
+  const existingOrder = await getOrder(orderId);
   if (!existingOrder) {
     return NextResponse.json({ error: "Unknown order." }, { status: 404 });
   }
@@ -34,9 +36,16 @@ export async function POST(req: NextRequest) {
   }
 
   if (event === "payment.captured") {
-    updateOrder(orderId, { payment_status: "paid", shipping_status: "processing" });
+    const paidOrder = await updateOrder(orderId, {
+      payment_status: "paid",
+      shipping_status: "processing",
+    });
+    if (paidOrder) {
+      const fulfilled = await fulfillPaidOrder(paidOrder);
+      await sendPurchaseCapiEvent(fulfilled, req);
+    }
   } else if (event === "payment.failed") {
-    updateOrder(orderId, { payment_status: "payment_failed" });
+    await updateOrder(orderId, { payment_status: "payment_failed" });
   }
 
   return NextResponse.json({ ok: true });

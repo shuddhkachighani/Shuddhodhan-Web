@@ -102,7 +102,7 @@ export async function POST(req: NextRequest) {
     utm_data: body.utm_data || {},
   };
 
-  saveOrder(order);
+  await saveOrder(order);
 
   if (razorpayProvider.status === "NOT_CONFIGURED") {
     return NextResponse.json({
@@ -122,7 +122,7 @@ export async function POST(req: NextRequest) {
   });
 
   order.payment_status = "payment_initiated";
-  saveOrder(order);
+  await saveOrder(order);
 
   return NextResponse.json({
     order_id: order.order_id,

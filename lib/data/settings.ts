@@ -47,7 +47,9 @@ export const siteSettings = {
 
   analytics: {
     metaPixelId: process.env.NEXT_PUBLIC_META_PIXEL_ID || "",
-    metaCapiConfigured: Boolean(process.env.META_CAPI_ACCESS_TOKEN),
+    metaCapiConfigured: Boolean(
+      process.env.NEXT_PUBLIC_META_PIXEL_ID && process.env.META_CAPI_ACCESS_TOKEN
+    ),
     ga4MeasurementId: process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID || "",
   },
 

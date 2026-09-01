@@ -95,6 +95,23 @@ function ConfirmationContent() {
           <span className="text-brown-900">Total Paid</span>
           <span className="text-brown-900">₹{order.grand_total.toLocaleString("en-IN")}</span>
         </div>
+
+        {order.tracking_number && (
+          <div className="mt-4 border-t border-stone/50 pt-3 text-sm">
+            <div className="flex justify-between">
+              <span className="text-brown-700">Carrier</span>
+              <span className="text-brown-900">{order.carrier}</span>
+            </div>
+            <div className="mt-1 flex justify-between">
+              <span className="text-brown-700">Tracking Number</span>
+              <span className="text-brown-900">{order.tracking_number}</span>
+            </div>
+            <div className="mt-1 flex justify-between">
+              <span className="text-brown-700">Shipping Status</span>
+              <span className="text-brown-900">{order.shipping_status.replace(/_/g, " ")}</span>
+            </div>
+          </div>
+        )}
       </div>
 
       <Link

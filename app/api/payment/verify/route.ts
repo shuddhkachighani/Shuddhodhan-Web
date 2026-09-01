@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { razorpayProvider } from "@/lib/payment/razorpay-provider";
 import { getOrder, updateOrder } from "@/lib/orders/store";
+import { fulfillPaidOrder } from "@/lib/orders/fulfillment";
+import { sendPurchaseCapiEvent } from "@/lib/analytics/meta-capi";
 
 // Called from the Razorpay Checkout success handler for immediate UX. The
 // payment is only ever marked "paid" after the HMAC signature is verified
@@ -15,7 +17,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Missing verification fields." }, { status: 400 });
   }
 
-  const order = getOrder(order_id);
+  const order = await getOrder(order_id);
   if (!order) {
     return NextResponse.json({ error: "Unknown order." }, { status: 404 });
   }
@@ -27,14 +29,20 @@ export async function POST(req: NextRequest) {
   });
 
   if (!valid) {
-    updateOrder(order_id, { payment_status: "payment_failed" });
+    await updateOrder(order_id, { payment_status: "payment_failed" });
     return NextResponse.json({ error: "Signature verification failed." }, { status: 400 });
   }
 
-  const updated = updateOrder(order_id, {
+  const paidOrder = await updateOrder(order_id, {
     payment_status: "paid",
     shipping_status: "processing",
   });
 
-  return NextResponse.json({ ok: true, order: updated });
+  if (paidOrder) {
+    const fulfilled = await fulfillPaidOrder(paidOrder);
+    await sendPurchaseCapiEvent(fulfilled, req);
+    return NextResponse.json({ ok: true, order: fulfilled });
+  }
+
+  return NextResponse.json({ ok: true, order: paidOrder });
 }

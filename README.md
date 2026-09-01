@@ -28,14 +28,36 @@ npm run dev
   anywhere in this layer. Orders are only ever marked "paid" after a
   server-verified HMAC signature (checkout callback) or the Razorpay webhook —
   never from an unverified frontend event.
-- **Orders** (`lib/orders/`) — in-memory store. **This is the one deliberately
-  MOCKED piece for demoing the checkout → payment flow end-to-end.** Replace
-  with a real database before production.
+- **Orders** (`lib/orders/`) — persisted to a real Postgres table (Supabase,
+  schema in `supabase/migrations/`) once `NEXT_PUBLIC_SUPABASE_URL` +
+  `SUPABASE_SERVICE_ROLE_KEY` are set (RLS is enabled with no policies, so only
+  that server-only key can touch the table — see
+  `lib/supabase/server-client.ts`). Falls back to an in-memory store when
+  those aren't set, purely so checkout still runs end-to-end in local dev.
+- **Logistics** (`lib/logistics/`) — a `LogisticsProvider` adapter interface
+  for shipment creation + tracking (separate from the shipping *rate quote* in
+  `lib/shipping/`). `lib/orders/fulfillment.ts` creates a shipment once a
+  payment is verified paid, idempotently, from either the checkout callback or
+  the webhook. Currently a clearly-labelled `MockLogisticsProvider` pending a
+  real courier integration.
+- **Payment** (`lib/payment/`) — a `PaymentProvider` adapter interface with a
+  Razorpay implementation (REST API, no SDK dependency). No Cash on Delivery
+  anywhere in this layer. Orders are only ever marked "paid" after a
+  server-verified HMAC signature (checkout callback) or the Razorpay webhook —
+  never from an unverified frontend event.
 - **Analytics** (`lib/analytics/`) — unified Meta Pixel + GA4 event dispatch
   (`ViewContent`, `AddToCart`, `InitiateCheckout`, `Purchase`, ...), UTM/fbclid
-  attribution capture, both env-gated no-ops until real IDs are supplied.
+  attribution capture, and a server-side Meta Conversions API call
+  (`lib/analytics/meta-capi.ts`) fired on verified payment with the same
+  `event_id` as the browser Pixel event for deduplication. All env-gated
+  no-ops until real IDs/tokens are supplied.
 - **SEO** — per-route metadata, `sitemap.ts`, `robots.ts`, and JSON-LD for
   Organization, Product, Breadcrumb, FAQPage and VideoObject.
+- **Tests** (`**/*.test.ts`, run with `npm run test`) — unit coverage for cart
+  pricing math, product catalogue integrity (no selling price above MRP, no
+  duplicate slugs/variant ids), payment fee calculation, and shipping quote
+  logic (invalid pincode, unconfigured vs. configured Indore delivery, national
+  fallback) — spec section 55.
 
 ## Status matrix
 
@@ -49,9 +71,10 @@ npm run dev
 | Indore local shipping | CONFIGURED, needs real values | Rules are wired up; `INDORE_SERVICEABLE_PINCODES` is empty until supplied — nothing is assumed serviceable. |
 | National shipping (outside Indore) | MOCKED | Placeholder zone/weight rate table. Needs a real logistics provider integration. |
 | Payment gateway | READY (Razorpay adapter), **NOT CONNECTED** | Works fully once `NEXT_PUBLIC_RAZORPAY_KEY_ID` / `RAZORPAY_KEY_SECRET` / `RAZORPAY_WEBHOOK_SECRET` are set. Checkout shows an honest "not connected" notice otherwise — it never fakes a successful order. |
-| Order storage | MOCKED | In-memory only; swap `lib/orders/store.ts` for a real database. |
+| Order storage | READY (Supabase/Postgres), **NOT CONNECTED** | Schema + RLS deployed to the project's Supabase instance; falls back to an in-memory MOCKED store until `SUPABASE_SERVICE_ROLE_KEY` is set. |
+| Shipment creation / tracking | MOCKED | `lib/logistics/mock-provider.ts` generates a fake AWB on payment success so the order → shipment → tracking flow is testable. Needs a real courier integration. |
 | Meta Pixel / GA4 | READY, **NOT CONNECTED** | No-ops until `NEXT_PUBLIC_META_PIXEL_ID` / `NEXT_PUBLIC_GA4_MEASUREMENT_ID` are set. |
-| Meta Conversions API (server-side) | NOT IMPLEMENTED | `META_CAPI_ACCESS_TOKEN` is a placeholder only; no server-side CAPI call exists yet. |
+| Meta Conversions API (server-side) | READY, **NOT CONNECTED** | Implemented in `lib/analytics/meta-capi.ts`, fired on verified payment; no-ops until `META_CAPI_ACCESS_TOKEN` is set. |
 | Reviews | READY (structure), empty | No fabricated testimonials/ratings — `lib/data/reviews.ts` is empty until real reviews are collected. |
 | Legal pages | PLACEHOLDER | Section headings only; final legal text must be supplied. |
 | WhatsApp button | CONFIGURED, needs a number | Hidden until `NEXT_PUBLIC_WHATSAPP_NUMBER` is set. |
@@ -63,11 +86,13 @@ npm run dev
 3. WhatsApp support number.
 4. Meta Pixel ID and GA4 Measurement ID.
 5. Razorpay (or chosen gateway) API keys + webhook secret.
-6. A logistics provider decision + credentials for shipping outside Indore.
+6. A logistics provider decision + credentials for shipping outside Indore
+   AND for shipment creation/tracking (`lib/logistics/`).
 7. The list of serviceable Indore pincodes and the local delivery rate rules.
 8. Genuine customer reviews.
 9. Finalized legal policy text (privacy, terms, shipping, refund, payment).
-10. A production database to replace the in-memory order store.
+10. The Supabase `SUPABASE_SERVICE_ROLE_KEY` (from Project Settings > API) to
+    switch order storage on — the project and schema already exist.
 
 ## Scripts
 
@@ -75,4 +100,5 @@ npm run dev
 npm run dev     # local dev server
 npm run build   # production build
 npm run lint    # eslint
+npm run test    # vitest unit tests
 ```
