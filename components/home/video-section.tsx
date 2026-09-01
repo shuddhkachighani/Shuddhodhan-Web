@@ -1,5 +1,10 @@
 import { getActiveVideos } from "@/lib/data/videos";
 import { VideoCarousel } from "@/components/home/video-carousel";
+import { siteSettings } from "@/lib/data/settings";
+
+function absoluteUrl(path: string) {
+  return path.startsWith("http") ? path : `${siteSettings.siteUrl}${path}`;
+}
 
 function videoObjectJsonLd(video: ReturnType<typeof getActiveVideos>[number]) {
   return {
@@ -7,10 +12,10 @@ function videoObjectJsonLd(video: ReturnType<typeof getActiveVideos>[number]) {
     "@type": "VideoObject",
     name: video.title,
     description: video.description,
-    thumbnailUrl: [video.thumbnail],
+    thumbnailUrl: [absoluteUrl(video.thumbnail)],
     uploadDate: video.published_date,
     duration: `PT${video.duration_seconds}S`,
-    contentUrl: video.video_url,
+    contentUrl: absoluteUrl(video.video_url),
   };
 }
 

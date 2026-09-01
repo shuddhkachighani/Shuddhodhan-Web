@@ -66,7 +66,7 @@ npm run dev
 | Homepage, brand sections | READY | Copy avoids invented claims/certifications. |
 | Product catalogue & pricing | READY | Prices/MRP copied verbatim from the supplied rate list. Do not edit without an updated rate list. |
 | Product photography / hero imagery | READY for 7/11 oils | Real Shuddhodhan photography in `public/products/<slug>/` (resized, compressed, EXIF stripped) for Groundnut, Black Mustard, Virgin Coconut, White Sesame, Sunflower, Almond and Castor. Yellow Mustard, Black Sesame, Safflower and Flaxseed still show the honest placeholder pending photos. |
-| Video/Reels CMS | READY (structure) — **MOCKED** (no content) | `lib/data/videos.ts` is empty by design; add real `VideoItem` entries to activate the homepage section. |
+| Video/Reels CMS | READY, 2 real Reels live | `lib/data/videos.ts` has 2 real Shuddhodhan Reels (transcoded to 720p H.264, posters generated) in `public/videos/reels/`. Add more `VideoItem` entries the same way as more Reels are supplied. |
 | Cart | READY | Client-side, persisted to `localStorage`. |
 | Indore local shipping | CONFIGURED, needs real values | Rules are wired up; `INDORE_SERVICEABLE_PINCODES` is empty until supplied — nothing is assumed serviceable. |
 | National shipping (outside Indore) | MOCKED | Placeholder zone/weight rate table. Needs a real logistics provider integration. |
@@ -83,7 +83,7 @@ npm run dev
 
 1. Real product photography for the remaining 4 oils (Yellow Mustard, Black
    Sesame, Safflower, Flaxseed) — same drop-in process as the other 7.
-2. Real Shuddhodhan videos/Reels (file or hosted URL, title, description, category).
+2. More real Shuddhodhan videos/Reels (2 are live; same drop-in process for more).
 3. WhatsApp support number.
 4. Meta Pixel ID and GA4 Measurement ID.
 5. Razorpay (or chosen gateway) API keys + webhook secret.
