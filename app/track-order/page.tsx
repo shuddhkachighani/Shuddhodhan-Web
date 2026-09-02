@@ -24,7 +24,7 @@ function currentStageIndex(order: Order): number {
 
 export default function TrackOrderPage() {
   const [orderId, setOrderId] = useState("");
-  const [contact, setContact] = useState("");
+  const [mobile, setMobile] = useState("");
   const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -32,15 +32,19 @@ export default function TrackOrderPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!orderId.trim()) return;
+    if (!orderId.trim() || !mobile.trim()) return;
     setLoading(true);
     setError(null);
     setOrder(null);
     setSearched(true);
     try {
-      const res = await fetch(`/api/orders/${encodeURIComponent(orderId.trim())}`);
+      const res = await fetch(`/api/orders/${encodeURIComponent(orderId.trim())}`, {
+        headers: { "X-Order-Mobile": mobile.trim() },
+      });
       if (!res.ok) {
-        setError("We couldn't find an order with that number. Double-check it and try again.");
+        setError(
+          "We couldn't find an order with that number and mobile number. Double-check them and try again."
+        );
         return;
       }
       const data = await res.json();
@@ -85,17 +89,20 @@ export default function TrackOrderPage() {
             />
 
             <label className="mt-4 block text-sm font-medium text-brown-900">
-              Mobile or Email <span className="font-normal text-brown-500">(optional, for now)</span>
+              Mobile Number
             </label>
             <input
-              placeholder="Used for order verification once enabled"
+              required
+              type="tel"
+              placeholder="The mobile number used at checkout"
+              pattern="[6-9][0-9]{9}"
               className="mt-1.5 w-full rounded-md border border-stone px-4 py-2.5 text-sm"
-              value={contact}
-              onChange={(e) => setContact(e.target.value)}
+              value={mobile}
+              onChange={(e) => setMobile(e.target.value)}
             />
             <p className="mt-1.5 text-xs text-brown-500">
-              We currently look up orders by Order Number only. Mobile/email
-              verification is planned but not yet active.
+              For your privacy, we verify both your Order Number and the
+              mobile number used at checkout before showing order details.
             </p>
 
             <button

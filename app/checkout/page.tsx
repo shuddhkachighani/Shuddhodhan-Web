@@ -165,6 +165,13 @@ export default function CheckoutPage() {
             body: JSON.stringify({ order_id: data.order_id, ...response }),
           });
           if (verifyRes.ok) {
+            try {
+              sessionStorage.setItem(`shd_order_mobile_${data.order_id}`, customer.mobile);
+            } catch {
+              // sessionStorage can throw in locked-down browser contexts;
+              // order-confirmation falls back to asking for the mobile
+              // number itself if it isn't there.
+            }
             router.push(`/order-confirmation?order_id=${data.order_id}`);
           } else {
             setErrorMessage("Payment verification failed. Please contact support.");

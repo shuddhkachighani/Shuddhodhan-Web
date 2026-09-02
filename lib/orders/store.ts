@@ -5,13 +5,39 @@ import { getSupabaseServerClient, isSupabaseConfigured } from "@/lib/supabase/se
  * Order persistence. Backed by a real Postgres table (Supabase) once
  * NEXT_PUBLIC_SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY are configured — see
  * the `create_orders_table` migration for schema/RLS. Falls back to an
- * in-memory Map otherwise, purely so the checkout flow still runs end-to-end
- * in local/dev environments without those secrets. The in-memory fallback
- * resets on restart and is NOT safe for production — status: MOCKED.
+ * in-memory Map when those aren't set, purely so the checkout flow still
+ * runs end-to-end in local dev/test. That fallback resets on restart and is
+ * refused outright in production (see isProductionRuntime below) rather
+ * than silently degrading — a paid order must always land in durable
+ * storage or the request fails loudly.
  */
 const memoryOrders = new Map<string, Order>();
 
+// Thrown whenever durable order storage cannot be relied on — either
+// Supabase isn't configured for this environment, or it is configured but
+// a read/write to it just failed (outage, network error, RLS/auth
+// misconfiguration, etc.). Routes catch this one type to return a clean,
+// generic 503 without ever surfacing the underlying Supabase error to the
+// client; the original error is kept as `cause` for server-side debugging.
+export class OrderStoreUnavailableError extends Error {
+  constructor(cause?: unknown) {
+    super("Durable order storage is unavailable.", cause !== undefined ? { cause } : undefined);
+    this.name = "OrderStoreUnavailableError";
+  }
+}
+
+function isProductionRuntime(): boolean {
+  return process.env.NODE_ENV === "production";
+}
+
+function assertStoreUsable(): void {
+  if (!isSupabaseConfigured() && isProductionRuntime()) {
+    throw new OrderStoreUnavailableError();
+  }
+}
+
 export async function saveOrder(order: Order): Promise<void> {
+  assertStoreUsable();
   if (!isSupabaseConfigured()) {
     memoryOrders.set(order.order_id, order);
     return;
@@ -19,10 +45,11 @@ export async function saveOrder(order: Order): Promise<void> {
 
   const supabase = getSupabaseServerClient();
   const { error } = await supabase.from("orders").upsert(toRow(order));
-  if (error) throw new Error(`Failed to save order: ${error.message}`);
+  if (error) throw new OrderStoreUnavailableError(error);
 }
 
 export async function getOrder(orderId: string): Promise<Order | undefined> {
+  assertStoreUsable();
   if (!isSupabaseConfigured()) {
     return memoryOrders.get(orderId);
   }
@@ -34,7 +61,7 @@ export async function getOrder(orderId: string): Promise<Order | undefined> {
     .eq("order_id", orderId)
     .maybeSingle();
 
-  if (error) throw new Error(`Failed to fetch order: ${error.message}`);
+  if (error) throw new OrderStoreUnavailableError(error);
   return data ? fromRow(data) : undefined;
 }
 
@@ -42,6 +69,7 @@ export async function updateOrder(
   orderId: string,
   patch: Partial<Order>
 ): Promise<Order | undefined> {
+  assertStoreUsable();
   if (!isSupabaseConfigured()) {
     const existing = memoryOrders.get(orderId);
     if (!existing) return undefined;
@@ -58,7 +86,7 @@ export async function updateOrder(
     .select("*")
     .maybeSingle();
 
-  if (error) throw new Error(`Failed to update order: ${error.message}`);
+  if (error) throw new OrderStoreUnavailableError(error);
   return data ? fromRow(data) : undefined;
 }
 

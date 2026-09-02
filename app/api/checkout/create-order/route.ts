@@ -3,9 +3,13 @@ import { getVariant, products } from "@/lib/data/products";
 import { getShippingQuote } from "@/lib/shipping";
 import { computePaymentFee } from "@/lib/payment/fees";
 import { razorpayProvider } from "@/lib/payment/razorpay-provider";
-import { generateOrderId, saveOrder } from "@/lib/orders/store";
+import { generateOrderId, saveOrder, OrderStoreUnavailableError } from "@/lib/orders/store";
 import type { CartLine, Order, OrderAttribution, OrderCustomer, OrderItem } from "@/lib/types";
 import { isValidIndianPincode } from "@/lib/shipping/types";
+import { enforceRateLimit } from "@/lib/rate-limit";
+
+const ORDER_STORE_UNAVAILABLE_MESSAGE =
+  "Ordering is temporarily unavailable. Please try again shortly.";
 
 interface CreateOrderBody {
   lines: CartLine[];
@@ -18,6 +22,9 @@ interface CreateOrderBody {
 // catalogue and shipping engine (spec section 25) before an order or a
 // payment-gateway order is created.
 export async function POST(req: NextRequest) {
+  const limited = enforceRateLimit(req, "checkout-create-order", { limit: 10, windowMs: 60_000 });
+  if (limited) return limited;
+
   let body: CreateOrderBody;
   try {
     body = await req.json();
@@ -102,7 +109,14 @@ export async function POST(req: NextRequest) {
     utm_data: body.utm_data || {},
   };
 
-  await saveOrder(order);
+  try {
+    await saveOrder(order);
+  } catch (err) {
+    if (err instanceof OrderStoreUnavailableError) {
+      return NextResponse.json({ error: ORDER_STORE_UNAVAILABLE_MESSAGE }, { status: 503 });
+    }
+    throw err;
+  }
 
   if (razorpayProvider.status === "NOT_CONFIGURED") {
     return NextResponse.json({
@@ -122,7 +136,14 @@ export async function POST(req: NextRequest) {
   });
 
   order.payment_status = "payment_initiated";
-  await saveOrder(order);
+  try {
+    await saveOrder(order);
+  } catch (err) {
+    if (err instanceof OrderStoreUnavailableError) {
+      return NextResponse.json({ error: ORDER_STORE_UNAVAILABLE_MESSAGE }, { status: 503 });
+    }
+    throw err;
+  }
 
   return NextResponse.json({
     order_id: order.order_id,

@@ -10,23 +10,43 @@ import { useCart } from "@/lib/cart/cart-context";
 import { trackPurchase } from "@/lib/analytics/events";
 import type { Order } from "@/lib/types";
 
+function lookupOrder(orderId: string, mobile: string) {
+  return fetch(`/api/orders/${orderId}`, {
+    headers: { "X-Order-Mobile": mobile },
+  }).then((res) => {
+    if (!res.ok) throw new Error("not found");
+    return res.json() as Promise<{ order: Order }>;
+  });
+}
+
 function ConfirmationContent() {
   const orderId = useSearchParams().get("order_id");
   const { clearCart } = useCart();
   const [order, setOrder] = useState<Order | null>(null);
   const [error, setError] = useState(false);
+  const [needsMobile, setNeedsMobile] = useState(() => {
+    if (typeof window === "undefined" || !orderId) return false;
+    try {
+      return !sessionStorage.getItem(`shd_order_mobile_${orderId}`);
+    } catch {
+      return true;
+    }
+  });
+  const [mobileInput, setMobileInput] = useState("");
 
-  useEffect(() => {
+  const runLookup = (mobile: string) => {
     if (!orderId) return;
-
     const dedupeKey = `shuddhodhan_purchase_tracked_${orderId}`;
-    fetch(`/api/orders/${orderId}`)
-      .then((res) => {
-        if (!res.ok) throw new Error("not found");
-        return res.json();
-      })
-      .then((data: { order: Order }) => {
+    lookupOrder(orderId, mobile)
+      .then((data) => {
         setOrder(data.order);
+        setNeedsMobile(false);
+        setError(false);
+        try {
+          sessionStorage.removeItem(`shd_order_mobile_${orderId}`);
+        } catch {
+          // best-effort cleanup only
+        }
         if (data.order.payment_status === "paid" && !sessionStorage.getItem(dedupeKey)) {
           trackPurchase(
             orderId,
@@ -41,17 +61,76 @@ function ConfirmationContent() {
           clearCart();
         }
       })
-      .catch(() => setError(true));
+      .catch(() => {
+        // Whether this came from the automatic (sessionStorage) attempt or
+        // a manual retry, fall through to the "enter your mobile number"
+        // form rather than getting stuck on a loading state.
+        setError(true);
+        setNeedsMobile(true);
+        setMobileInput((current) => current || mobile);
+      });
+  };
+
+  useEffect(() => {
+    if (!orderId) return;
+    let storedMobile = "";
+    try {
+      storedMobile = sessionStorage.getItem(`shd_order_mobile_${orderId}`) || "";
+    } catch {
+      // sessionStorage unavailable — fall through to asking the customer
+    }
+    if (storedMobile) {
+      runLookup(storedMobile);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orderId]);
 
-  if (!orderId || error) {
+  if (!orderId) {
     return (
       <div className="container-page py-16 text-center">
         <p className="text-brown-700">We couldn&apos;t find that order.</p>
         <Link href="/oils" className="mt-4 inline-block text-sm font-semibold underline">
           Continue shopping
         </Link>
+      </div>
+    );
+  }
+
+  if (needsMobile && !order) {
+    return (
+      <div className="container-page max-w-md py-16 text-center">
+        <h1 className="font-serif text-2xl text-brown-900">Confirm your order</h1>
+        <p className="mt-2 text-sm text-brown-700">
+          Enter the mobile number used at checkout to view order {orderId}.
+        </p>
+        <form
+          className="mt-6 text-left"
+          onSubmit={(e) => {
+            e.preventDefault();
+            runLookup(mobileInput.trim());
+          }}
+        >
+          <input
+            required
+            type="tel"
+            placeholder="Mobile Number"
+            pattern="[6-9][0-9]{9}"
+            className="w-full rounded-md border border-stone px-4 py-2.5 text-sm"
+            value={mobileInput}
+            onChange={(e) => setMobileInput(e.target.value)}
+          />
+          {error && (
+            <p className="mt-3 rounded-md bg-red-50 px-4 py-3 text-sm text-red-700">
+              We couldn&apos;t find that order with this mobile number.
+            </p>
+          )}
+          <button
+            type="submit"
+            className="mt-4 w-full rounded-full bg-brown-900 px-6 py-3 text-sm font-semibold text-warm-white"
+          >
+            View Order
+          </button>
+        </form>
       </div>
     );
   }
