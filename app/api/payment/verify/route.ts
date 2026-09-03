@@ -20,7 +20,28 @@ export async function POST(req: NextRequest) {
   const body = await req.json();
   const { order_id, razorpay_order_id, razorpay_payment_id, razorpay_signature } = body;
 
-  if (!order_id || !razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
+  const hasOrderId = Boolean(order_id);
+  const hasRazorpayOrderId = Boolean(razorpay_order_id);
+  const hasPaymentId = Boolean(razorpay_payment_id);
+  const hasSignature = Boolean(razorpay_signature);
+  const providerStatus = razorpayProvider.status;
+
+  // Temporary diagnostic logging for the production payment-verification
+  // failure investigation. Never logs the signature, RAZORPAY_KEY_SECRET,
+  // card details, or customer data — only presence flags, order/payment
+  // identifiers, and the verification outcome.
+  console.log("[payment-verify diagnostic] request received", {
+    providerStatus,
+    hasOrderId,
+    hasRazorpayOrderId,
+    hasPaymentId,
+    hasSignature,
+    order_id,
+    razorpay_order_id,
+    razorpay_payment_id,
+  });
+
+  if (!hasOrderId || !hasRazorpayOrderId || !hasPaymentId || !hasSignature) {
     return NextResponse.json({ error: "Missing verification fields." }, { status: 400 });
   }
 
@@ -36,9 +57,29 @@ export async function POST(req: NextRequest) {
       signature: razorpay_signature,
     });
 
+    console.log("[payment-verify diagnostic] signature verification result", {
+      providerStatus,
+      order_id,
+      razorpay_order_id,
+      razorpay_payment_id,
+      valid,
+    });
+
     if (!valid) {
       await updateOrder(order_id, { payment_status: "payment_failed" });
-      return NextResponse.json({ error: "Signature verification failed." }, { status: 400 });
+      return NextResponse.json(
+        {
+          error: "Signature verification failed.",
+          debug: {
+            providerStatus,
+            hasOrderId,
+            hasRazorpayOrderId,
+            hasPaymentId,
+            hasSignature,
+          },
+        },
+        { status: 400 }
+      );
     }
 
     const paidOrder = await updateOrder(order_id, {
