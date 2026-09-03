@@ -174,7 +174,20 @@ export default function CheckoutPage() {
             }
             router.push(`/order-confirmation?order_id=${data.order_id}`);
           } else {
-            setErrorMessage("Payment verification failed. Please contact support.");
+            // Temporary diagnostic: surface the safe `debug` object from
+            // /api/payment/verify (provider status + field-presence flags
+            // only — never the signature, secret, card, or customer data)
+            // alongside the existing error message.
+            let debugSuffix = "";
+            try {
+              const errBody = await verifyRes.json();
+              if (errBody?.debug) {
+                debugSuffix = ` [debug: ${JSON.stringify(errBody.debug)}]`;
+              }
+            } catch {
+              // response body may not be JSON; show the generic message alone
+            }
+            setErrorMessage(`Payment verification failed. Please contact support.${debugSuffix}`);
           }
         },
         modal: {
