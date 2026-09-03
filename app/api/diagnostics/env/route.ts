@@ -15,6 +15,26 @@ function classifyError(code: string | undefined): "auth" | "schema" | "other" {
   return "other";
 }
 
+// Extracts only safe, low-level identifiers from a thrown transport/fetch
+// error: the JS error constructor name (e.g. "TypeError") and, if present,
+// the same for its `.cause` plus a systemic error code (e.g. "ENOTFOUND",
+// "ECONNRESET", "ETIMEDOUT"). Never touches `.message`/`.stack`, which can
+// echo the request URL.
+function extractTransportErrorInfo(err: unknown): {
+  errorName: string | null;
+  errorCauseCode: string | null;
+  errorCauseName: string | null;
+} {
+  const errorName = err instanceof Error ? err.name : null;
+  const cause =
+    err instanceof Error ? (err.cause as { name?: string; code?: string } | undefined) : undefined;
+  return {
+    errorName,
+    errorCauseCode: typeof cause?.code === "string" ? cause.code : null,
+    errorCauseName: typeof cause?.name === "string" ? cause.name : null,
+  };
+}
+
 export async function GET() {
   const base = {
     supabaseUrlConfigured: Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL),
@@ -33,6 +53,9 @@ export async function GET() {
           httpStatus: null,
           rowCountSample: null,
           timedOut: null,
+          errorName: null,
+          errorCauseCode: null,
+          errorCauseName: null,
         },
       },
       { headers: { "Cache-Control": "no-store" } }
@@ -55,6 +78,37 @@ export async function GET() {
     clearTimeout(timeout);
 
     if (error) {
+      // httpStatus === 0 with no error.code is postgrest-js's signature for a
+      // transport/fetch-level failure (DNS, connection refused/reset, TLS,
+      // timeout) that never reached PostgREST's HTTP layer — for these,
+      // error.code is deliberately empty by design, so the underlying JS
+      // error name/cause is only recoverable via throwOnError(). Re-run the
+      // identical read-only SELECT once, purely to extract those safe
+      // low-level identifiers.
+      let transportInfo: ReturnType<typeof extractTransportErrorInfo> = {
+        errorName: null,
+        errorCauseCode: null,
+        errorCauseName: null,
+      };
+      if (httpStatus === 0 && !error.code) {
+        try {
+          const retryController = new AbortController();
+          const retryTimeout = setTimeout(() => retryController.abort(), 5000);
+          try {
+            await supabase
+              .from("orders")
+              .select("order_id")
+              .limit(1)
+              .abortSignal(retryController.signal)
+              .throwOnError();
+          } finally {
+            clearTimeout(retryTimeout);
+          }
+        } catch (retryErr) {
+          transportInfo = extractTransportErrorInfo(retryErr);
+        }
+      }
+
       return NextResponse.json(
         {
           ...base,
@@ -67,6 +121,7 @@ export async function GET() {
             httpStatus: httpStatus ?? null,
             rowCountSample: null,
             timedOut: null,
+            ...transportInfo,
           },
         },
         { headers: { "Cache-Control": "no-store" } }
@@ -83,6 +138,9 @@ export async function GET() {
           httpStatus: httpStatus ?? null,
           rowCountSample: data?.length ?? 0,
           timedOut: null,
+          errorName: null,
+          errorCauseCode: null,
+          errorCauseName: null,
         },
       },
       { headers: { "Cache-Control": "no-store" } }
@@ -99,6 +157,7 @@ export async function GET() {
           httpStatus: null,
           rowCountSample: null,
           timedOut: isAbort,
+          ...extractTransportErrorInfo(err),
         },
       },
       { headers: { "Cache-Control": "no-store" } }
