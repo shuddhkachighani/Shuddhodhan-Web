@@ -19,6 +19,7 @@ describe("getShippingQuote", () => {
       pincode: "12345",
       cartWeightGrams: 1000,
       cartValue: 310,
+      lines: [],
     });
     expect(quote.serviceable).toBe(false);
     expect(quote.reason).toMatch(/valid 6-digit/i);
@@ -32,6 +33,7 @@ describe("getShippingQuote", () => {
       pincode: "452001",
       cartWeightGrams: 1000,
       cartValue: 310,
+      lines: [],
     });
 
     // Falls through to the mocked national provider rather than assuming
@@ -51,6 +53,7 @@ describe("getShippingQuote", () => {
       pincode: "452001",
       cartWeightGrams: 1000,
       cartValue: 310,
+      lines: [],
     });
     expect(belowThreshold.serviceable).toBe(true);
     expect(belowThreshold.carrier).toBe("Shuddhodhan Local Delivery");
@@ -60,6 +63,7 @@ describe("getShippingQuote", () => {
       pincode: "452001",
       cartWeightGrams: 1000,
       cartValue: 1500,
+      lines: [],
     });
     expect(aboveThreshold.shipping_amount).toBe(0);
   });
@@ -73,6 +77,7 @@ describe("getShippingQuote", () => {
       pincode: "110001",
       cartWeightGrams: 1000,
       cartValue: 310,
+      lines: [],
     });
     expect(quote.serviceable).toBe(true);
     expect(quote.carrier).not.toBe("Shuddhodhan Local Delivery");

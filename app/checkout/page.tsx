@@ -81,7 +81,7 @@ export default function CheckoutPage() {
       const res = await fetch("/api/shipping/check", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ pincode, cartWeightGrams: weightGrams, cartValue: subtotal }),
+        body: JSON.stringify({ pincode, cartWeightGrams: weightGrams, cartValue: subtotal, lines }),
       });
       const data: ShippingQuoteResponse = await res.json();
       setShippingQuote(data);

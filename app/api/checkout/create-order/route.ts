@@ -78,6 +78,7 @@ export async function POST(req: NextRequest) {
     pincode: customer.pincode,
     cartWeightGrams: weightGrams,
     cartValue: subtotal,
+    lines,
   });
 
   if (!shippingQuote.serviceable) {

@@ -88,6 +88,7 @@ export interface ShippingQuoteRequest {
   pincode: string;
   cartWeightGrams: number;
   cartValue: number;
+  lines: CartLine[];
 }
 
 export interface ShippingQuoteResponse {
