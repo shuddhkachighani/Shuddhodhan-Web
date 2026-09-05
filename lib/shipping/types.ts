@@ -7,8 +7,12 @@ import type { ShippingQuoteRequest, ShippingQuoteResponse } from "@/lib/types";
 // touching anything upstream.
 export interface ShippingProvider {
   readonly name: string;
-  /** READY = real, production data. MOCKED = placeholder logic pending real integration. */
-  readonly status: "READY" | "MOCKED";
+  /**
+   * READY = real, production data. MOCKED = placeholder logic pending real
+   * integration. NOT_CONFIGURED = a real integration whose credentials
+   * haven't been supplied yet (same convention as PaymentProvider).
+   */
+  readonly status: "READY" | "MOCKED" | "NOT_CONFIGURED";
   getQuote(request: ShippingQuoteRequest): Promise<ShippingQuoteResponse>;
 }
 
