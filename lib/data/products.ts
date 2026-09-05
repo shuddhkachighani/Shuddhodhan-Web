@@ -27,10 +27,10 @@ export const products: Product[] = [
     featured: true,
     active: true,
     variants: [
-      { id: "groundnut-oil-1l", size: "1 L", sizeMl: 1000, mrp: 443, sellingPrice: 310, weightGrams: 1000, inStock: true },
-      { id: "groundnut-oil-2l", size: "2 L", sizeMl: 2000, mrp: 886, sellingPrice: 620, weightGrams: 1950, inStock: true },
-      { id: "groundnut-oil-5l", size: "5 L", sizeMl: 5000, mrp: 2143, sellingPrice: 1500, weightGrams: 4750, inStock: true },
-      { id: "groundnut-oil-15l", size: "15 L", sizeMl: 15000, mrp: 6214, sellingPrice: 4350, weightGrams: 14200, inStock: true },
+      { id: "groundnut-oil-1l", size: "1 L", sizeMl: 1000, mrp: 443, sellingPrice: 310, weightGrams: 1000, inStock: true, lengthCm: 31, widthCm: 15, heightCm: 15 },
+      { id: "groundnut-oil-2l", size: "2 L", sizeMl: 2000, mrp: 886, sellingPrice: 620, weightGrams: 1950, inStock: true, lengthCm: 21, widthCm: 12, heightCm: 9 },
+      { id: "groundnut-oil-5l", size: "5 L", sizeMl: 5000, mrp: 2143, sellingPrice: 1500, weightGrams: 4750, inStock: true, lengthCm: 33, widthCm: 21, heightCm: 21 },
+      { id: "groundnut-oil-15l", size: "15 L", sizeMl: 15000, mrp: 6214, sellingPrice: 4350, weightGrams: 14200, inStock: true, lengthCm: 39, widthCm: 27, heightCm: 27 },
     ],
   },
   {
@@ -46,9 +46,9 @@ export const products: Product[] = [
     featured: true,
     active: true,
     variants: [
-      { id: "virgin-coconut-oil-200ml", size: "200 ML", sizeMl: 200, mrp: 186, sellingPrice: 130, weightGrams: 220, inStock: true },
-      { id: "virgin-coconut-oil-500ml", size: "500 ML", sizeMl: 500, mrp: 386, sellingPrice: 270, weightGrams: 520, inStock: true },
-      { id: "virgin-coconut-oil-1l", size: "1 L", sizeMl: 1000, mrp: 743, sellingPrice: 520, weightGrams: 1000, inStock: true },
+      { id: "virgin-coconut-oil-200ml", size: "200 ML", sizeMl: 200, mrp: 186, sellingPrice: 130, weightGrams: 220, inStock: true, lengthCm: 12, widthCm: 6, heightCm: 6 },
+      { id: "virgin-coconut-oil-500ml", size: "500 ML", sizeMl: 500, mrp: 386, sellingPrice: 270, weightGrams: 520, inStock: true, lengthCm: 15, widthCm: 12, heightCm: 12 },
+      { id: "virgin-coconut-oil-1l", size: "1 L", sizeMl: 1000, mrp: 743, sellingPrice: 520, weightGrams: 1000, inStock: true, lengthCm: 31, widthCm: 15, heightCm: 15 },
     ],
   },
   {
@@ -64,11 +64,11 @@ export const products: Product[] = [
     featured: true,
     active: true,
     variants: [
-      { id: "black-mustard-oil-200ml", size: "200 ML", sizeMl: 200, mrp: 114, sellingPrice: 80, weightGrams: 220, inStock: true },
-      { id: "black-mustard-oil-500ml", size: "500 ML", sizeMl: 500, mrp: 243, sellingPrice: 170, weightGrams: 520, inStock: true },
-      { id: "black-mustard-oil-1l", size: "1 L", sizeMl: 1000, mrp: 471, sellingPrice: 330, weightGrams: 1000, inStock: true },
-      { id: "black-mustard-oil-5l", size: "5 L", sizeMl: 5000, mrp: 2286, sellingPrice: 1600, weightGrams: 4750, inStock: true },
-      { id: "black-mustard-oil-15l", size: "15 L", sizeMl: 15000, mrp: 6643, sellingPrice: 4650, weightGrams: 14200, inStock: true },
+      { id: "black-mustard-oil-200ml", size: "200 ML", sizeMl: 200, mrp: 114, sellingPrice: 80, weightGrams: 220, inStock: true, lengthCm: 12, widthCm: 6, heightCm: 6 },
+      { id: "black-mustard-oil-500ml", size: "500 ML", sizeMl: 500, mrp: 243, sellingPrice: 170, weightGrams: 520, inStock: true, lengthCm: 15, widthCm: 12, heightCm: 12 },
+      { id: "black-mustard-oil-1l", size: "1 L", sizeMl: 1000, mrp: 471, sellingPrice: 330, weightGrams: 1000, inStock: true, lengthCm: 31, widthCm: 15, heightCm: 15 },
+      { id: "black-mustard-oil-5l", size: "5 L", sizeMl: 5000, mrp: 2286, sellingPrice: 1600, weightGrams: 4750, inStock: true, lengthCm: 33, widthCm: 21, heightCm: 21 },
+      { id: "black-mustard-oil-15l", size: "15 L", sizeMl: 15000, mrp: 6643, sellingPrice: 4650, weightGrams: 14200, inStock: true, lengthCm: 39, widthCm: 27, heightCm: 27 },
     ],
   },
   {
@@ -84,10 +84,10 @@ export const products: Product[] = [
     featured: false,
     active: true,
     variants: [
-      { id: "yellow-mustard-oil-200ml", size: "200 ML", sizeMl: 200, mrp: 129, sellingPrice: 90, weightGrams: 220, inStock: true },
-      { id: "yellow-mustard-oil-500ml", size: "500 ML", sizeMl: 500, mrp: 286, sellingPrice: 200, weightGrams: 520, inStock: true },
-      { id: "yellow-mustard-oil-1l", size: "1 L", sizeMl: 1000, mrp: 543, sellingPrice: 380, weightGrams: 1000, inStock: true },
-      { id: "yellow-mustard-oil-5l", size: "5 L", sizeMl: 5000, mrp: 2643, sellingPrice: 1850, weightGrams: 4750, inStock: true },
+      { id: "yellow-mustard-oil-200ml", size: "200 ML", sizeMl: 200, mrp: 129, sellingPrice: 90, weightGrams: 220, inStock: true, lengthCm: 12, widthCm: 6, heightCm: 6 },
+      { id: "yellow-mustard-oil-500ml", size: "500 ML", sizeMl: 500, mrp: 286, sellingPrice: 200, weightGrams: 520, inStock: true, lengthCm: 15, widthCm: 12, heightCm: 12 },
+      { id: "yellow-mustard-oil-1l", size: "1 L", sizeMl: 1000, mrp: 543, sellingPrice: 380, weightGrams: 1000, inStock: true, lengthCm: 31, widthCm: 15, heightCm: 15 },
+      { id: "yellow-mustard-oil-5l", size: "5 L", sizeMl: 5000, mrp: 2643, sellingPrice: 1850, weightGrams: 4750, inStock: true, lengthCm: 33, widthCm: 21, heightCm: 21 },
     ],
   },
   {
@@ -103,9 +103,9 @@ export const products: Product[] = [
     featured: true,
     active: true,
     variants: [
-      { id: "white-sesame-oil-200ml", size: "200 ML", sizeMl: 200, mrp: 171, sellingPrice: 120, weightGrams: 220, inStock: true },
-      { id: "white-sesame-oil-500ml", size: "500 ML", sizeMl: 500, mrp: 371, sellingPrice: 260, weightGrams: 520, inStock: true },
-      { id: "white-sesame-oil-1l", size: "1 L", sizeMl: 1000, mrp: 714, sellingPrice: 500, weightGrams: 1000, inStock: true },
+      { id: "white-sesame-oil-200ml", size: "200 ML", sizeMl: 200, mrp: 171, sellingPrice: 120, weightGrams: 220, inStock: true, lengthCm: 12, widthCm: 6, heightCm: 6 },
+      { id: "white-sesame-oil-500ml", size: "500 ML", sizeMl: 500, mrp: 371, sellingPrice: 260, weightGrams: 520, inStock: true, lengthCm: 15, widthCm: 12, heightCm: 12 },
+      { id: "white-sesame-oil-1l", size: "1 L", sizeMl: 1000, mrp: 714, sellingPrice: 500, weightGrams: 1000, inStock: true, lengthCm: 31, widthCm: 15, heightCm: 15 },
     ],
   },
   {
@@ -121,9 +121,9 @@ export const products: Product[] = [
     featured: false,
     active: true,
     variants: [
-      { id: "black-sesame-oil-200ml", size: "200 ML", sizeMl: 200, mrp: 200, sellingPrice: 140, weightGrams: 220, inStock: true },
-      { id: "black-sesame-oil-500ml", size: "500 ML", sizeMl: 500, mrp: 429, sellingPrice: 300, weightGrams: 520, inStock: true },
-      { id: "black-sesame-oil-1l", size: "1 L", sizeMl: 1000, mrp: 829, sellingPrice: 580, weightGrams: 1000, inStock: true },
+      { id: "black-sesame-oil-200ml", size: "200 ML", sizeMl: 200, mrp: 200, sellingPrice: 140, weightGrams: 220, inStock: true, lengthCm: 12, widthCm: 6, heightCm: 6 },
+      { id: "black-sesame-oil-500ml", size: "500 ML", sizeMl: 500, mrp: 429, sellingPrice: 300, weightGrams: 520, inStock: true, lengthCm: 15, widthCm: 12, heightCm: 12 },
+      { id: "black-sesame-oil-1l", size: "1 L", sizeMl: 1000, mrp: 829, sellingPrice: 580, weightGrams: 1000, inStock: true, lengthCm: 31, widthCm: 15, heightCm: 15 },
     ],
   },
   {
@@ -139,9 +139,9 @@ export const products: Product[] = [
     featured: false,
     active: true,
     variants: [
-      { id: "sunflower-oil-500ml", size: "500 ML", sizeMl: 500, mrp: 286, sellingPrice: 200, weightGrams: 520, inStock: true },
-      { id: "sunflower-oil-1l", size: "1 L", sizeMl: 1000, mrp: 543, sellingPrice: 380, weightGrams: 1000, inStock: true },
-      { id: "sunflower-oil-5l", size: "5 L", sizeMl: 5000, mrp: 2643, sellingPrice: 1850, weightGrams: 4750, inStock: true },
+      { id: "sunflower-oil-500ml", size: "500 ML", sizeMl: 500, mrp: 286, sellingPrice: 200, weightGrams: 520, inStock: true, lengthCm: 15, widthCm: 12, heightCm: 12 },
+      { id: "sunflower-oil-1l", size: "1 L", sizeMl: 1000, mrp: 543, sellingPrice: 380, weightGrams: 1000, inStock: true, lengthCm: 31, widthCm: 15, heightCm: 15 },
+      { id: "sunflower-oil-5l", size: "5 L", sizeMl: 5000, mrp: 2643, sellingPrice: 1850, weightGrams: 4750, inStock: true, lengthCm: 33, widthCm: 21, heightCm: 21 },
     ],
   },
   {
@@ -157,8 +157,8 @@ export const products: Product[] = [
     featured: false,
     active: true,
     variants: [
-      { id: "safflower-oil-500ml", size: "500 ML", sizeMl: 500, mrp: 257, sellingPrice: 180, weightGrams: 520, inStock: true },
-      { id: "safflower-oil-1l", size: "1 L", sizeMl: 1000, mrp: 500, sellingPrice: 350, weightGrams: 1000, inStock: true },
+      { id: "safflower-oil-500ml", size: "500 ML", sizeMl: 500, mrp: 257, sellingPrice: 180, weightGrams: 520, inStock: true, lengthCm: 15, widthCm: 12, heightCm: 12 },
+      { id: "safflower-oil-1l", size: "1 L", sizeMl: 1000, mrp: 500, sellingPrice: 350, weightGrams: 1000, inStock: true, lengthCm: 31, widthCm: 15, heightCm: 15 },
     ],
   },
   {
@@ -174,7 +174,7 @@ export const products: Product[] = [
     featured: false,
     active: true,
     variants: [
-      { id: "almond-oil-100ml", size: "100 ML", sizeMl: 100, mrp: 371, sellingPrice: 260, weightGrams: 130, inStock: true },
+      { id: "almond-oil-100ml", size: "100 ML", sizeMl: 100, mrp: 371, sellingPrice: 260, weightGrams: 130, inStock: true, lengthCm: 9, widthCm: 4, heightCm: 4 },
     ],
   },
   {
@@ -190,7 +190,7 @@ export const products: Product[] = [
     featured: false,
     active: true,
     variants: [
-      { id: "flaxseed-oil-200ml", size: "200 ML", sizeMl: 200, mrp: 157, sellingPrice: 110, weightGrams: 220, inStock: true },
+      { id: "flaxseed-oil-200ml", size: "200 ML", sizeMl: 200, mrp: 157, sellingPrice: 110, weightGrams: 220, inStock: true, lengthCm: 12, widthCm: 6, heightCm: 6 },
     ],
   },
   {
@@ -206,8 +206,8 @@ export const products: Product[] = [
     featured: false,
     active: true,
     variants: [
-      { id: "castor-oil-100ml", size: "100 ML", sizeMl: 100, mrp: 100, sellingPrice: 70, weightGrams: 130, inStock: true },
-      { id: "castor-oil-200ml", size: "200 ML", sizeMl: 200, mrp: 186, sellingPrice: 130, weightGrams: 220, inStock: true },
+      { id: "castor-oil-100ml", size: "100 ML", sizeMl: 100, mrp: 100, sellingPrice: 70, weightGrams: 130, inStock: true, lengthCm: 9, widthCm: 4, heightCm: 4 },
+      { id: "castor-oil-200ml", size: "200 ML", sizeMl: 200, mrp: 186, sellingPrice: 130, weightGrams: 220, inStock: true, lengthCm: 12, widthCm: 6, heightCm: 6 },
     ],
   },
 ];

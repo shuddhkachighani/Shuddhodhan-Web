@@ -12,6 +12,9 @@ export interface ProductVariant {
   sellingPrice: number; // actual selling price in INR
   weightGrams: number; // packed weight incl. bottle, for shipping calc
   inStock: boolean;
+  lengthCm: number; // actual packed outer parcel length in cm, for shipping/volumetric-weight calc
+  widthCm: number; // actual packed outer parcel width in cm, for shipping/volumetric-weight calc
+  heightCm: number; // actual packed outer parcel height in cm, for shipping/volumetric-weight calc
 }
 
 export interface Product {
