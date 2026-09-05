@@ -1,3 +1,4 @@
+import { siteSettings } from "@/lib/data/settings";
 import { indoreLocalProvider } from "@/lib/shipping/indore-provider";
 import { mockNationalProvider } from "@/lib/shipping/mock-national-provider";
 import { isValidIndianPincode } from "@/lib/shipping/types";
@@ -23,8 +24,20 @@ export async function getShippingQuote(
     };
   }
 
-  const indoreQuote = await indoreLocalProvider.getQuote(request);
+  // The shipping weight fed to providers includes the packing-weight
+  // allowance; the caller's actual product weight (request.cartWeightGrams)
+  // stays authoritative and is never itself mutated.
+  const shippingWeightGrams = Math.round(
+    request.cartWeightGrams *
+      (1 + siteSettings.shipping.packingWeightAllowanceGramsPerKg / 1000)
+  );
+  const shippingRequest: ShippingQuoteRequest = {
+    ...request,
+    cartWeightGrams: shippingWeightGrams,
+  };
+
+  const indoreQuote = await indoreLocalProvider.getQuote(shippingRequest);
   if (indoreQuote.serviceable) return indoreQuote;
 
-  return mockNationalProvider.getQuote(request);
+  return mockNationalProvider.getQuote(shippingRequest);
 }

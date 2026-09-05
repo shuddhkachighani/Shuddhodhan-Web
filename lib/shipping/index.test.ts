@@ -83,3 +83,31 @@ describe("getShippingQuote", () => {
     expect(quote.carrier).not.toBe("Shuddhodhan Local Delivery");
   });
 });
+
+describe("getShippingQuote packing-weight allowance", () => {
+  afterEach(() => {
+    vi.unstubAllEnvs();
+  });
+
+  it.each([
+    [500, 575],
+    [1000, 1150],
+    [2000, 2300],
+    [5000, 5750],
+  ])(
+    "inflates %dg of actual product weight to %dg for the shipping quote",
+    async (actualWeightGrams, expectedShippingWeightGrams) => {
+      vi.stubEnv("INDORE_SERVICEABLE_PINCODES", "");
+      const getShippingQuote = await loadGetShippingQuote();
+
+      const quote = await getShippingQuote({
+        pincode: "452001",
+        cartWeightGrams: actualWeightGrams,
+        cartValue: 310,
+        lines: [],
+      });
+
+      expect(quote.weight_used_grams).toBe(expectedShippingWeightGrams);
+    }
+  );
+});

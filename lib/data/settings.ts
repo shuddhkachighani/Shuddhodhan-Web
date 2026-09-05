@@ -92,6 +92,12 @@ export const siteSettings = {
 
   shipping: {
     originPincode: process.env.SHIPPING_ORIGIN_PINCODE || "452001",
+    // Extra buffer weight added on top of actual product weight before a
+    // shipping rate is calculated, to account for the carton/padding/void
+    // fill used when packing an order (business-approved: 150g per 1kg of
+    // product weight, i.e. +15%). Does not affect the stored product weight
+    // itself — see lib/shipping/index.ts for where this is applied.
+    packingWeightAllowanceGramsPerKg: 150,
     indore: {
       enabled: envBool("INDORE_DELIVERY_ENABLED", true),
       freeShipping: envBool("INDORE_FREE_SHIPPING", false),

@@ -69,9 +69,10 @@ describe("POST /api/shipping/check", () => {
     const quote = await res.json();
 
     expect(quote.serviceable).toBe(true);
-    // groundnut-oil-1l weighs 1000g per the server-side catalogue — proving
-    // the client-supplied cartWeightGrams: 1 above was never used.
-    expect(quote.weight_used_grams).toBe(1000);
+    // groundnut-oil-1l weighs 1000g per the server-side catalogue, inflated
+    // by the 15% packing-weight allowance to 1150g — proving the
+    // client-supplied cartWeightGrams: 1 above was never used.
+    expect(quote.weight_used_grams).toBe(1150);
   });
 
   it("sums weight and value across multiple lines from the catalogue", async () => {
@@ -89,7 +90,9 @@ describe("POST /api/shipping/check", () => {
     );
     const quote = await res.json();
 
-    // 2 * 1000g (groundnut-oil-1l) + 1 * 220g (virgin-coconut-oil-200ml)
-    expect(quote.weight_used_grams).toBe(2220);
+    // 2 * 1000g (groundnut-oil-1l) + 1 * 220g (virgin-coconut-oil-200ml) =
+    // 2220g actual product weight, inflated by the 15% packing-weight
+    // allowance to 2553g.
+    expect(quote.weight_used_grams).toBe(2553);
   });
 });
