@@ -92,19 +92,16 @@ export const siteSettings = {
 
   shipping: {
     originPincode: process.env.SHIPPING_ORIGIN_PINCODE || "452001",
-    // Extra buffer weight added on top of actual product weight before a
-    // shipping rate is calculated, to account for the carton/padding/void
-    // fill used when packing an order (business-approved: 150g per 1kg of
-    // product weight, i.e. +15%). Does not affect the stored product weight
-    // itself — see lib/shipping/index.ts for where this is applied.
-    packingWeightAllowanceGramsPerKg: 150,
     indore: {
       enabled: envBool("INDORE_DELIVERY_ENABLED", true),
       freeShipping: envBool("INDORE_FREE_SHIPPING", false),
-      flatRate: envInt("INDORE_FLAT_RATE", 49),
+      // Locked business policy: below ₹1,000 → ₹99 delivery; ₹1,000 or above
+      // → free. Indore orders are fulfilled by us directly, never Shiprocket
+      // — see lib/shipping/index.ts.
+      flatRate: envInt("INDORE_FLAT_RATE", 99),
       minimumFreeShippingValue: envInt(
         "INDORE_MINIMUM_FREE_SHIPPING_VALUE",
-        999
+        1000
       ),
       // Empty until the real serviceable pincode list is supplied. An empty
       // list means "not yet configured" — see lib/shipping for behaviour.

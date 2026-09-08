@@ -100,7 +100,7 @@ describe("ShiprocketProvider", () => {
     expect(params.get("delivery_postcode")).toBe("110001");
   });
 
-  it("sends weight in kg, derived from the already-allowance-adjusted cartWeightGrams", async () => {
+  it("converts the supplied unmodified cartWeightGrams from grams to kilograms", async () => {
     const fetchMock = stubFetch({ ok: true, json: async () => courierPayload([]) });
     const provider = new ShiprocketProvider();
 

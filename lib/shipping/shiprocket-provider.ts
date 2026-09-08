@@ -119,9 +119,9 @@ export class ShiprocketProvider implements ShippingProvider {
       return notServiceable(request, "Shiprocket authentication failed.");
     }
 
-    // request.cartWeightGrams already includes the packing-weight allowance
-    // applied upstream by lib/shipping/index.ts — this provider does not
-    // re-derive or adjust weight itself.
+    // request.cartWeightGrams is the actual finished shipment weight,
+    // unmodified by lib/shipping/index.ts — this provider sends it to
+    // Shiprocket as-is and does not add any allowance or adjustment.
     const params = new URLSearchParams({
       pickup_postcode: siteSettings.shipping.originPincode,
       delivery_postcode: request.pincode,
