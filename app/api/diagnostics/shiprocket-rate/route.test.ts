@@ -42,6 +42,25 @@ const EXPECTED_MUMBAI_REQUEST = {
   lines: [{ productId: "groundnut-oil", variantId: "groundnut-oil-1l", quantity: 1 }],
 };
 
+function expectedMumbaiRequest(cartWeightGrams: number) {
+  return {
+    pincode: "400001",
+    cartWeightGrams,
+    cartValue: 310,
+    lines: [{ productId: "groundnut-oil", variantId: "groundnut-oil-1l", quantity: 1 }],
+  };
+}
+
+const ALL_KNOWN_CASES = [
+  "452009",
+  "400001",
+  "400001-2300g",
+  "400001-3450g",
+  "400001-5750g",
+  "400001-8625g",
+  "400001-11500g",
+];
+
 function makeRequest(
   headers: Record<string, string> = {},
   searchParams: Record<string, string> = {}
@@ -187,12 +206,45 @@ describe("GET /api/diagnostics/shiprocket-rate", () => {
 
     expect(res.status).toBe(400);
     expect(body.error).toBe("Unknown test case.");
-    // Numeric-looking string keys ("452009", "400001") are iterated by JS in
-    // ascending numeric order regardless of insertion order, so compare as a
-    // set rather than asserting a specific array order.
-    expect([...body.knownCases].sort()).toEqual(["400001", "452009"]);
+    // Key order isn't guaranteed (numeric-looking string keys like "452009"
+    // are iterated by JS in ascending numeric order ahead of non-numeric
+    // keys, regardless of insertion order), so compare as a set.
+    expect(new Set(body.knownCases)).toEqual(new Set(ALL_KNOWN_CASES));
     expect(getQuoteMock).not.toHaveBeenCalled();
   });
+
+  it.each([
+    ["400001-2300g", 2300],
+    ["400001-3450g", 3450],
+    ["400001-5750g", 5750],
+    ["400001-8625g", 8625],
+    ["400001-11500g", 11500],
+  ])(
+    "selects the Mumbai national-rate tier %s with cartWeightGrams %d",
+    async (caseKey, expectedWeight) => {
+      vi.stubEnv("DIAGNOSTICS_ACCESS_KEY", SECRET);
+      getQuoteMock.mockResolvedValue({
+        serviceable: true,
+        shipping_amount: 120,
+        estimated_delivery: "2026-09-14",
+        carrier: "Some National Courier",
+        service: null,
+        weight_used_grams: expectedWeight,
+        zone: null,
+      });
+
+      const res = await GET(
+        makeRequest({ "x-diagnostics-key": SECRET }, { case: caseKey })
+      );
+      const body = await res.json();
+
+      expect(res.status).toBe(200);
+      expect(getQuoteMock).toHaveBeenCalledTimes(1);
+      expect(getQuoteMock).toHaveBeenCalledWith(expectedMumbaiRequest(expectedWeight));
+      expect(body.testCase).toBe(caseKey);
+      expect(body.quote.weight_used_grams).toBe(expectedWeight);
+    }
+  );
 
   it("with a correct access key, passes through a safe reason when the quote fails", async () => {
     vi.stubEnv("DIAGNOSTICS_ACCESS_KEY", SECRET);

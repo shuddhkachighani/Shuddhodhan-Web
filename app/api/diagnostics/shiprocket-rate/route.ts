@@ -11,7 +11,11 @@ export const dynamic = "force-dynamic"; // never statically cache/prerender this
  * rate-limit gating pattern as app/api/diagnostics/shiprocket/route.ts
  * (auth-only probe), but this one runs a controlled Shiprocket courier
  * serviceability/rate test against one of a small, fixed set of test
- * cases (an Indore-local destination and an out-of-Indore destination).
+ * cases (an Indore-local destination, and a Mumbai out-of-Indore
+ * destination at several basket-weight tiers, used to collect real
+ * national rates for step 3 of the shipping model — Indore itself is
+ * fulfilled by us at a flat locked-in rate, per the current business
+ * decision, and is not part of this Shiprocket national-rate exercise).
  *
  * Makes exactly one call per request: shiprocketProvider.getQuote(...) with
  * one of the whitelisted TEST_CASES below. That provider
@@ -27,11 +31,13 @@ export const dynamic = "force-dynamic"; // never statically cache/prerender this
  * never taken from caller input, so this can't be repurposed into an
  * arbitrary-address rate lookup.
  *
- * The fixed test weight (1150g) is deliberate in every case: shiprocketProvider
- * is not yet wired into lib/shipping/index.ts, where the 15% packing-weight
- * allowance normally gets applied upstream, so this hardcodes the
- * already-allowance-adjusted weight (1000g groundnut-oil-1l x 1.15) rather
- * than re-deriving it or letting a caller supply it.
+ * Every case's weight is a fixed, already-allowance-adjusted value:
+ * shiprocketProvider is not yet wired into lib/shipping/index.ts, where the
+ * 15% packing-weight allowance normally gets applied upstream, so these
+ * hardcode the post-allowance weight (product weight x 1.15) rather than
+ * re-deriving it or letting a caller supply it. The Mumbai tiers below are
+ * 1/2/3/5/7.5/10 kg of actual groundnut-oil-1l product weight (1/2/3/5/7.5/10
+ * bottles), each x1.15: 1150g/2300g/3450g/5750g/8625g/11500g.
  *
  * Never returns or logs the bearer token, credentials, or a raw
  * Authorization header — shiprocketProvider.getQuote() already returns
@@ -44,22 +50,36 @@ const GROUNDNUT_OIL_1L_LINE = [
   { productId: "groundnut-oil", variantId: "groundnut-oil-1l", quantity: 1 },
 ] as const;
 
+function mumbaiCase(cartWeightGrams: number): ShippingQuoteRequest {
+  return {
+    pincode: "400001",
+    cartWeightGrams,
+    cartValue: 310,
+    lines: [...GROUNDNUT_OIL_1L_LINE],
+  };
+}
+
 const TEST_CASES: Record<string, ShippingQuoteRequest> = {
-  // Case 1 (already live-tested): Indore-local destination.
+  // Case 1 (already live-tested): Indore-local destination. Indore is now
+  // fulfilled by us at a flat locked-in rate (not Shiprocket) — kept here
+  // only as the original rate-adapter smoke test, not for national-rate
+  // collection.
   "452009": {
     pincode: "452009",
     cartWeightGrams: 1150,
     cartValue: 310,
     lines: [...GROUNDNUT_OIL_1L_LINE],
   },
-  // Case 2: out-of-Indore destination (Mumbai), same product/weight/value —
-  // isolates whether serviceability/rate differs by distance/zone alone.
-  "400001": {
-    pincode: "400001",
-    cartWeightGrams: 1150,
-    cartValue: 310,
-    lines: [...GROUNDNUT_OIL_1L_LINE],
-  },
+  // Case 2 (already live-tested): out-of-Indore destination (Mumbai) at the
+  // 1kg product-weight tier — kept exactly as-is.
+  "400001": mumbaiCase(1150),
+  // Mumbai national-rate collection: same product/value, increasing
+  // basket-weight tiers (2/3/5/7.5/10 kg of product weight, x1.15).
+  "400001-2300g": mumbaiCase(2300),
+  "400001-3450g": mumbaiCase(3450),
+  "400001-5750g": mumbaiCase(5750),
+  "400001-8625g": mumbaiCase(8625),
+  "400001-11500g": mumbaiCase(11500),
 };
 
 const DEFAULT_TEST_CASE = "452009";
