@@ -7,10 +7,12 @@ export function ProductImage({
   src,
   alt,
   className = "",
+  priority = false,
 }: {
   src: string | null;
   alt: string;
   className?: string;
+  priority?: boolean;
 }) {
   if (src) {
     return (
@@ -20,6 +22,7 @@ export function ProductImage({
         fill
         sizes="(max-width: 768px) 50vw, 25vw"
         className={`object-cover ${className}`}
+        priority={priority}
       />
     );
   }
