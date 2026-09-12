@@ -22,7 +22,7 @@ export default function OilsPage() {
       <main>
         <section className="bg-cream py-12 md:py-16">
           <div className="container-page">
-            <p className="eyebrow text-mustard">Shop</p>
+            <p className="eyebrow text-mustard-deep">Shop</p>
             <h1 className="mt-3 font-serif text-4xl text-brown-900">All Oils</h1>
             <p className="mt-2 max-w-lg text-brown-700">
               Wood cold pressed, Kachi Ghani process. MRP and selling price shown

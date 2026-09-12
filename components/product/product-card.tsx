@@ -94,21 +94,21 @@ export function ProductCard({ product }: { product: Product }) {
           ))}
         </div>
 
-        <div className="mt-auto flex items-center gap-2 pt-1">
+        <div className="mt-auto flex items-center gap-1 pt-1 sm:gap-2">
           <div className="flex items-center rounded-full border border-stone">
             <button
               type="button"
               aria-label="Decrease quantity"
-              className="px-2.5 py-1.5 text-brown-700"
+              className="px-1 py-1.5 text-brown-700 sm:px-2.5"
               onClick={() => setQuantity((q) => Math.max(1, q - 1))}
             >
               −
             </button>
-            <span className="min-w-[1.5rem] text-center text-sm">{quantity}</span>
+            <span className="min-w-[1rem] text-center text-sm sm:min-w-[1.5rem]">{quantity}</span>
             <button
               type="button"
               aria-label="Increase quantity"
-              className="px-2.5 py-1.5 text-brown-700"
+              className="px-1 py-1.5 text-brown-700 sm:px-2.5"
               onClick={() => setQuantity((q) => q + 1)}
             >
               +
@@ -117,7 +117,7 @@ export function ProductCard({ product }: { product: Product }) {
           <button
             type="button"
             onClick={handleAdd}
-            className="flex-1 rounded-full bg-mustard px-4 py-2 text-sm font-semibold text-warm-white transition-colors hover:bg-oil-dark"
+            className="flex-1 whitespace-nowrap rounded-full bg-mustard px-1.5 py-2 text-xs font-semibold text-warm-white transition-colors hover:bg-oil-dark sm:px-4 sm:text-sm"
           >
             Add to Cart
           </button>
