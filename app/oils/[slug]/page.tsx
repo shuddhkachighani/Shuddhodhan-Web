@@ -77,7 +77,7 @@ export default async function ProductPage({
           />
 
           <div>
-            <p className="eyebrow text-mustard">{USE_LABEL[product.intendedUse]}</p>
+            <p className="eyebrow text-mustard-deep">{USE_LABEL[product.intendedUse]}</p>
             <h1 className="mt-2 font-serif text-3xl text-brown-900 sm:text-4xl">
               {product.name}
             </h1>

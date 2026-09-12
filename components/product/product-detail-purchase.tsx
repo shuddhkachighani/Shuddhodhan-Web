@@ -56,7 +56,7 @@ export function ProductDetailPurchase({ product }: { product: Product }) {
             <span className="text-lg text-brown-500 line-through">
               ₹{variant.mrp.toLocaleString("en-IN")}
             </span>
-            <span className="text-sm font-medium text-mustard">
+            <span className="text-sm font-medium text-mustard-deep">
               {discountPercent}% off
             </span>
           </>
