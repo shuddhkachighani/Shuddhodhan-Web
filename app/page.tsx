@@ -25,6 +25,7 @@ export default function Home() {
       <AnnouncementBar />
       <Header />
       <main>
+        <h1 className="sr-only">Shuddhodhan — Pure by Process. Honest by Choice.</h1>
         <Hero />
         <TrustStrip />
         <VideoSection />

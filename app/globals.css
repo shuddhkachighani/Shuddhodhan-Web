@@ -12,6 +12,7 @@
   --color-charcoal: #22201d;
   --color-mustard: #b8842e;
   --color-mustard-light: #d9a95a;
+  --color-mustard-deep: #7a581f;
   --color-oil-dark: #6b3a13;
 
   --background: var(--color-warm-white);
@@ -30,6 +31,7 @@
   --color-charcoal: var(--color-charcoal);
   --color-mustard: var(--color-mustard);
   --color-mustard-light: var(--color-mustard-light);
+  --color-mustard-deep: var(--color-mustard-deep);
   --color-oil-dark: var(--color-oil-dark);
   --color-background: var(--background);
   --color-foreground: var(--foreground);

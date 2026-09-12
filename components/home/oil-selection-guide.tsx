@@ -31,7 +31,7 @@ export function OilSelectionGuide() {
   return (
     <section className="bg-warm-white py-16 md:py-20">
       <div className="container-page">
-        <p className="eyebrow text-mustard">Not sure where to start?</p>
+        <p className="eyebrow text-mustard-deep">Not sure where to start?</p>
         <h2 className="mt-3 max-w-lg font-serif text-3xl text-brown-900 sm:text-4xl">
           Find the right oil for your kitchen
         </h2>

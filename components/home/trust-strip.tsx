@@ -7,7 +7,7 @@ const POINTS = [
 
 export function TrustStrip() {
   return (
-    <section className="border-y border-stone/60 bg-warm-white">
+    <section className="border-y border-stone/60 bg-linen">
       <div className="container-page grid grid-cols-2 gap-6 py-8 md:grid-cols-4 md:gap-4">
         {POINTS.map((point) => (
           <div key={point.label} className="text-center">

@@ -17,7 +17,7 @@ export function TrustSection() {
   return (
     <section className="bg-cream py-16 md:py-20">
       <div className="container-page">
-        <p className="eyebrow text-mustard">Why Trust Shuddhodhan</p>
+        <p className="eyebrow text-mustard-deep">Why Trust Shuddhodhan</p>
         <h2 className="mt-3 max-w-xl font-serif text-3xl text-brown-900 sm:text-4xl">
           Built on transparency, not marketing
         </h2>

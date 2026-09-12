@@ -4,7 +4,7 @@ export function ReviewsSection() {
   return (
     <section id="reviews" className="scroll-mt-16 bg-warm-white py-16 md:py-20">
       <div className="container-page">
-        <p className="eyebrow text-mustard">Customer Reviews</p>
+        <p className="eyebrow text-mustard-deep">Customer Reviews</p>
         <h2 className="mt-3 max-w-xl font-serif text-3xl text-brown-900 sm:text-4xl">
           What our customers say
         </h2>
