@@ -27,7 +27,7 @@ export const products: Product[] = [
       "Wood cold pressed groundnut oil, extracted using the traditional Kachi Ghani process.",
     intendedUse: "CULINARY",
     category: "Groundnut",
-    heroImage: "/products/groundnut-oil/groundnut-oil-hero.webp",
+    heroImage: "/products/groundnut-oil/hero.jpg",
     gallery: [
       "/products/groundnut-oil/groundnut-oil-ingredient.webp",
       "/products/groundnut-oil/groundnut-oil-wood-ghani.webp",
@@ -50,7 +50,7 @@ export const products: Product[] = [
       "Wood cold pressed virgin coconut oil, extracted using the traditional Kachi Ghani process.",
     intendedUse: "CULINARY",
     category: "Coconut",
-    heroImage: "/products/virgin-coconut-oil/virgin-coconut-oil-hero.webp",
+    heroImage: "/products/virgin-coconut-oil/hero.jpg",
     gallery: [
       "/products/virgin-coconut-oil/virgin-coconut-oil-ingredient.webp",
       "/products/virgin-coconut-oil/virgin-coconut-oil-wood-ghani.webp",
@@ -73,11 +73,12 @@ export const products: Product[] = [
       "Wood cold pressed black mustard oil, extracted using the traditional Kachi Ghani process.",
     intendedUse: "CULINARY",
     category: "Mustard",
-    heroImage: "/products/black-mustard-oil/black-mustard-oil-ingredient.webp",
+    heroImage: "/products/black-mustard-oil/hero.jpg",
     gallery: [
-      "/products/black-mustard-oil/black-mustard-oil-premium.webp",
+      "/products/black-mustard-oil/black-mustard-oil-ingredient.webp",
       "/products/black-mustard-oil/black-mustard-oil-wood-ghani.webp",
       "/products/black-mustard-oil/black-mustard-oil-kitchen.webp",
+      "/products/black-mustard-oil/black-mustard-oil-premium.webp",
     ],
     featured: true,
     active: true,
@@ -116,7 +117,7 @@ export const products: Product[] = [
       "Wood cold pressed white sesame oil, extracted using the traditional Kachi Ghani process.",
     intendedUse: "CULINARY",
     category: "Sesame",
-    heroImage: "/products/white-sesame-oil/white-sesame-oil-hero.webp",
+    heroImage: "/products/white-sesame-oil/hero.jpg",
     gallery: [
       "/products/white-sesame-oil/white-sesame-oil-ingredient.webp",
       "/products/white-sesame-oil/white-sesame-oil-wood-ghani.webp",
@@ -157,7 +158,7 @@ export const products: Product[] = [
       "Wood cold pressed sunflower oil, extracted using the traditional Kachi Ghani process.",
     intendedUse: "CULINARY",
     category: "Sunflower",
-    heroImage: "/products/sunflower-oil/sunflower-oil-hero.webp",
+    heroImage: "/products/sunflower-oil/hero.jpg",
     gallery: [
       "/products/sunflower-oil/sunflower-oil-ingredient.webp",
       "/products/sunflower-oil/sunflower-oil-wood-ghani.webp",
@@ -197,7 +198,7 @@ export const products: Product[] = [
       "Wood cold pressed almond oil, extracted using the traditional Kachi Ghani process.",
     intendedUse: "SPECIALTY",
     category: "Specialty",
-    heroImage: "/products/almond-oil/almond-oil-hero.webp",
+    heroImage: "/products/almond-oil/hero.jpg",
     gallery: [
       "/products/almond-oil/almond-oil-ingredient.webp",
       "/products/almond-oil/almond-oil-wood-ghani.webp",
@@ -234,7 +235,7 @@ export const products: Product[] = [
       "Wood cold pressed castor oil. Intended for topical/household use — not an everyday edible cooking oil.",
     intendedUse: "NON_CULINARY",
     category: "Specialty",
-    heroImage: "/products/castor-oil/castor-oil-hero.webp",
+    heroImage: "/products/castor-oil/hero.jpg",
     gallery: [
       "/products/castor-oil/castor-oil-ingredient.webp",
       "/products/castor-oil/castor-oil-wood-ghani.webp",

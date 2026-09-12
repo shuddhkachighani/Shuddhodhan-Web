@@ -19,7 +19,12 @@ export function ProductGallery({
   return (
     <div>
       <div className="relative aspect-square overflow-hidden rounded-lg bg-linen">
-        <ProductImage src={images[active] ?? null} alt={alt} priority={active === 0} />
+        <ProductImage
+          src={images[active] ?? null}
+          alt={alt}
+          priority={active === 0}
+          objectFit={active === 0 ? "cover" : "contain"}
+        />
       </div>
 
       {images.length > 1 && (

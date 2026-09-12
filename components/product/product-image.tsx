@@ -8,11 +8,13 @@ export function ProductImage({
   alt,
   className = "",
   priority = false,
+  objectFit = "cover",
 }: {
   src: string | null;
   alt: string;
   className?: string;
   priority?: boolean;
+  objectFit?: "cover" | "contain";
 }) {
   if (src) {
     return (
@@ -21,7 +23,7 @@ export function ProductImage({
         alt={alt}
         fill
         sizes="(max-width: 768px) 50vw, 25vw"
-        className={`object-cover ${className}`}
+        className={`${objectFit === "contain" ? "object-contain" : "object-cover"} ${className}`}
         priority={priority}
       />
     );
