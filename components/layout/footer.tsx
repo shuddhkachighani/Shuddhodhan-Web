@@ -15,7 +15,7 @@ const DISCOVER_LINKS = [
   { href: "/", label: "Our Story" },
   { href: "/#process", label: "Our Process" },
   { href: "/#reels", label: "See Shuddhodhan in Action" },
-  { href: "/#faq", label: "FAQs" },
+  { href: "/faqs", label: "FAQs" },
   { href: "/contact", label: "Contact Us" },
 ];
 

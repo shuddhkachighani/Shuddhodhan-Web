@@ -67,7 +67,7 @@ export default function TrackOrderPage() {
       <main className="bg-warm-white">
         <section className="border-b border-stone/60 bg-cream py-10 md:py-14">
           <div className="container-page max-w-2xl">
-            <p className="eyebrow text-mustard">Support</p>
+            <p className="eyebrow text-mustard-deep">Support</p>
             <h1 className="mt-2 font-serif text-3xl text-brown-900 sm:text-4xl">
               Track Order
             </h1>

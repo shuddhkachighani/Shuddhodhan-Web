@@ -33,7 +33,7 @@ export function LegalPageLayout({
       <main className="bg-warm-white">
         <section className="border-b border-stone/60 bg-cream py-10 md:py-14">
           <div className="container-page max-w-4xl">
-            <p className="eyebrow text-mustard">Policy</p>
+            <p className="eyebrow text-mustard-deep">Policy</p>
             <h1 className="mt-2 font-serif text-3xl text-brown-900 sm:text-4xl">
               {title}
             </h1>

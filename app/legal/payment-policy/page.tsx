@@ -20,7 +20,7 @@ const sections: LegalSection[] = [
   {
     id: "payment-gateway",
     heading: "Payment gateway",
-    body: "Payments are processed through a recognised third-party online payment gateway. Shuddhodhan does not store your full card or bank account details.",
+    body: "Payments are processed through Razorpay, a recognised third-party online payment gateway. Shuddhodhan does not store your full card or bank account details.",
   },
   {
     id: "payment-verification",
