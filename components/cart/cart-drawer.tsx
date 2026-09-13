@@ -41,6 +41,7 @@ export function CartDrawer() {
                     <div className="mt-2 flex items-center gap-2">
                       <div className="flex items-center rounded-full border border-stone">
                         <button
+                          aria-label="Decrease quantity"
                           className="px-2 py-0.5 text-brown-700"
                           onClick={() => updateQuantity(line.variantId, line.quantity - 1)}
                         >
@@ -50,6 +51,7 @@ export function CartDrawer() {
                           {line.quantity}
                         </span>
                         <button
+                          aria-label="Increase quantity"
                           className="px-2 py-0.5 text-brown-700"
                           onClick={() => updateQuantity(line.variantId, line.quantity + 1)}
                         >

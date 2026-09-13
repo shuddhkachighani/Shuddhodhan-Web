@@ -232,11 +232,11 @@ export default function CheckoutPage() {
 
             <fieldset className="mt-8">
               <legend className="font-serif text-xl text-brown-900">Delivery details</legend>
-              <div className="mt-4 grid gap-4 sm:grid-cols-2">
+              <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <input
                   required
                   placeholder="Full Name"
-                  className="col-span-2 rounded-md border border-stone px-4 py-2.5 text-sm"
+                  className="rounded-md border border-stone px-4 py-2.5 text-sm sm:col-span-2"
                   value={customer.fullName}
                   onChange={(e) => setCustomer({ ...customer, fullName: e.target.value })}
                 />
@@ -260,7 +260,7 @@ export default function CheckoutPage() {
                 <input
                   required
                   placeholder="Address"
-                  className="col-span-2 rounded-md border border-stone px-4 py-2.5 text-sm"
+                  className="rounded-md border border-stone px-4 py-2.5 text-sm sm:col-span-2"
                   value={customer.address}
                   onChange={(e) => setCustomer({ ...customer, address: e.target.value })}
                 />

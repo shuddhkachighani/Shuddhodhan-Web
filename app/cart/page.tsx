@@ -48,6 +48,7 @@ export default function CartPage() {
 
                       <div className="flex items-center rounded-full border border-stone">
                         <button
+                          aria-label="Decrease quantity"
                           className="px-3 py-1.5 text-brown-700"
                           onClick={() => updateQuantity(line.variantId, line.quantity - 1)}
                         >
@@ -57,6 +58,7 @@ export default function CartPage() {
                           {line.quantity}
                         </span>
                         <button
+                          aria-label="Increase quantity"
                           className="px-3 py-1.5 text-brown-700"
                           onClick={() => updateQuantity(line.variantId, line.quantity + 1)}
                         >
