@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import type { Product } from "@/lib/types";
 import { useCart } from "@/lib/cart/cart-context";
-import { trackAddToCart, trackViewContent } from "@/lib/analytics/events";
+import { trackAddToCart } from "@/lib/analytics/events";
 import { ProductImage } from "@/components/product/product-image";
 
 export function ProductCard({ product }: { product: Product }) {
@@ -40,13 +40,6 @@ export function ProductCard({ product }: { product: Product }) {
       <Link
         href={`/oils/${product.slug}`}
         className="relative block aspect-square overflow-hidden"
-        onClick={() =>
-          trackViewContent({
-            id: product.id,
-            name: product.name,
-            price: variant.sellingPrice,
-          })
-        }
       >
         <ProductImage src={product.heroImage} alt={product.name} />
         {discountPercent > 0 && (

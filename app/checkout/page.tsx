@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { AnnouncementBar } from "@/components/layout/announcement-bar";
@@ -52,8 +52,11 @@ export default function CheckoutPage() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [gatewayNotice, setGatewayNotice] = useState<string | null>(null);
 
+  const initiateCheckoutFired = useRef(false);
+
   useEffect(() => {
-    if (detailedLines.length > 0) {
+    if (detailedLines.length > 0 && !initiateCheckoutFired.current) {
+      initiateCheckoutFired.current = true;
       trackInitiateCheckout(
         detailedLines.map((l) => ({
           id: l.variantId,
@@ -64,7 +67,7 @@ export default function CheckoutPage() {
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [detailedLines.length]);
 
   const estimatedTotal = useMemo(
     () => subtotal + (shippingQuote?.serviceable ? shippingQuote.shipping_amount : 0),

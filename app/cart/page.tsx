@@ -1,13 +1,32 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { AnnouncementBar } from "@/components/layout/announcement-bar";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { useCart } from "@/lib/cart/cart-context";
+import { trackViewCart } from "@/lib/analytics/events";
 
 export default function CartPage() {
   const { detailedLines, subtotal, updateQuantity, removeItem } = useCart();
+
+  const viewCartFired = useRef(false);
+
+  useEffect(() => {
+    if (detailedLines.length > 0 && !viewCartFired.current) {
+      viewCartFired.current = true;
+      trackViewCart(
+        detailedLines.map((l) => ({
+          id: l.variantId,
+          name: `${l.productName} — ${l.variantSize}`,
+          price: l.sellingPrice,
+          quantity: l.quantity,
+        }))
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [detailedLines.length]);
 
   return (
     <>

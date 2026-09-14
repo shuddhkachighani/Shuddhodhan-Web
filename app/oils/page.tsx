@@ -4,6 +4,7 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { products } from "@/lib/data/products";
 import { ProductCard } from "@/components/product/product-card";
+import { ViewCategoryTracker } from "@/components/product/view-category-tracker";
 
 export const metadata: Metadata = {
   title: "Shop All Oils",
@@ -17,6 +18,7 @@ export default function OilsPage() {
 
   return (
     <>
+      <ViewCategoryTracker products={activeProducts} listName="All Oils" />
       <AnnouncementBar />
       <Header />
       <main>
