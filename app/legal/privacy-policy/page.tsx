@@ -35,12 +35,15 @@ const sections: LegalSection[] = [
   {
     id: "analytics",
     heading: "Analytics",
-    body: "Structure pending: use of website analytics (e.g. Google Analytics/GA4) to understand site usage will be described here once configured and finalized.",
+    body: "If you accept cookies via the on-site cookie consent banner, we use Google Analytics (GA4), once configured for this site, to understand website usage such as pages visited and traffic sources. GA4 does not load, and no analytics data is collected, unless you accept cookies. You can change your choice at any time using the “Cookie Preferences” link in the site footer.",
   },
   {
     id: "meta-advertising",
     heading: "Meta advertising",
-    body: "Structure pending: use of the Meta (Facebook/Instagram) Pixel and Conversions API for advertising measurement will be described here once configured and finalized.",
+    body: [
+      "If you accept cookies via the on-site cookie consent banner, we use the Meta (Facebook/Instagram) Pixel, once configured for this site, to measure the performance of our advertising and to capture attribution information (such as campaign parameters and Meta's own click identifiers) for that purpose. The Meta Pixel does not load, and no browser-based tracking data is collected, unless you accept cookies. You can change your choice at any time using the “Cookie Preferences” link in the site footer.",
+      "Separately, when you complete a purchase, limited order details (such as a cryptographically hashed version of your email address or phone number) may be shared with Meta through a server-side Conversions API, to help measure advertising effectiveness, independent of the cookie banner described above. Structure pending: the legal basis and further detail for this specific processing will be reviewed and added here.",
+    ],
   },
   {
     id: "cookies",

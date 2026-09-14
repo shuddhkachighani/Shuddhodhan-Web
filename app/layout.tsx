@@ -5,6 +5,9 @@ import { CartProvider } from "@/lib/cart/cart-context";
 import { MetaPixelScript } from "@/components/analytics/meta-pixel-script";
 import { GA4Script } from "@/components/analytics/ga4-script";
 import { AttributionCapture } from "@/components/analytics/attribution-capture";
+import { ConsentProvider } from "@/lib/consent/consent-context";
+import { ConsentGate } from "@/components/analytics/consent-gate";
+import { CookieConsentBanner } from "@/components/consent/cookie-consent-banner";
 import WhatsAppButton from "@/components/whatsapp-button";
 import { CartDrawer } from "@/components/cart/cart-drawer";
 import { siteSettings } from "@/lib/data/settings";
@@ -53,14 +56,19 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd()) }}
         />
-        <MetaPixelScript />
-        <GA4Script />
-        <AttributionCapture />
-        <CartProvider>
-          {children}
-          <CartDrawer />
-          <WhatsAppButton />
-        </CartProvider>
+        <ConsentProvider>
+          <ConsentGate>
+            <MetaPixelScript />
+            <GA4Script />
+            <AttributionCapture />
+          </ConsentGate>
+          <CookieConsentBanner />
+          <CartProvider>
+            {children}
+            <CartDrawer />
+            <WhatsAppButton />
+          </CartProvider>
+        </ConsentProvider>
       </body>
     </html>
   );

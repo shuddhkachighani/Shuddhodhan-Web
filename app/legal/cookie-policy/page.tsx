@@ -16,16 +16,20 @@ const sections: LegalSection[] = [
     id: "cookies-we-use",
     heading: "Cookies and tracking technologies we use",
     body: [
-      "Essential: cookies required for core site functionality such as keeping items in your cart.",
-      "Analytics: if configured, Google Analytics (GA4) to understand site usage.",
-      "Advertising: if configured, the Meta (Facebook/Instagram) Pixel to measure ad performance.",
-      "Each of these only loads once the corresponding tool is actually configured — see this policy's updates for current status.",
+      "Essential: cookies and local storage required for core site functionality, such as keeping items in your cart. These are always active and are not affected by the cookie choice described below.",
+      "Analytics: Google Analytics (GA4), used only if you accept cookies via the on-site cookie banner described below, and only once GA4 is actually configured for this site.",
+      "Advertising: the Meta (Facebook/Instagram) Pixel, used only if you accept cookies via the on-site cookie banner described below, and only once it is actually configured for this site.",
+      "If you reject cookies, or the banner is left unanswered, analytics and advertising cookies are not loaded and no data is sent to Google or Meta from your browser.",
     ],
   },
   {
     id: "managing-cookies",
     heading: "Managing cookies",
-    body: "You can control or delete cookies through your browser settings. Disabling certain cookies may affect site functionality such as cart persistence.",
+    body: [
+      "When you first visit this site, a cookie banner lets you Accept or Reject analytics and advertising cookies. No choice is assumed from ordinary browsing — nothing beyond essential cookies loads until you explicitly accept.",
+      "You can change your choice at any time using the “Cookie Preferences” link in the site footer.",
+      "You can also control or delete cookies through your browser settings. Disabling essential cookies or local storage may affect site functionality such as cart persistence.",
+    ],
   },
   {
     id: "third-party-cookies",
