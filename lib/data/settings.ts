@@ -108,6 +108,13 @@ export const siteSettings = {
       servicablePincodes: envList("INDORE_SERVICEABLE_PINCODES"),
     },
     nationalProvider: process.env.SHIPPING_PROVIDER || "mock",
+    // Real Shiprocket ORDER fulfillment (create shipment + assign AWB for a
+    // paid order) is a separate, higher-blast-radius switch from the rate
+    // quote above — see lib/logistics/index.ts. Defaults to false: paid
+    // orders keep using the mock logistics provider until explicitly
+    // enabled, even if SHIPPING_PROVIDER=shiprocket is already live for
+    // rate quoting.
+    shiprocketFulfillmentEnabled: envBool("SHIPROCKET_FULFILLMENT_ENABLED", false),
   },
 
   tax: {

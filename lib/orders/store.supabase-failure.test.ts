@@ -48,6 +48,8 @@ describe("order store classifies Supabase operational failures", () => {
       shipping_status: "pending" as const,
       tracking_number: null,
       carrier: null,
+      shiprocket_order_id: null,
+      shiprocket_shipment_id: null,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
       utm_data: {},

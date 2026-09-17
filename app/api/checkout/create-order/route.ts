@@ -105,6 +105,8 @@ export async function POST(req: NextRequest) {
     shipping_status: "pending",
     tracking_number: null,
     carrier: shippingQuote.carrier,
+    shiprocket_order_id: null,
+    shiprocket_shipment_id: null,
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
     utm_data: body.utm_data || {},

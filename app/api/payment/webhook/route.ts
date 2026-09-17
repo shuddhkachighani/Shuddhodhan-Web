@@ -33,22 +33,58 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Unknown order." }, { status: 404 });
     }
 
-    // Idempotency: a duplicate callback for an already-paid order is a no-op.
-    if (existingOrder.payment_status === "paid") {
-      return NextResponse.json({ ok: true, deduped: true });
-    }
-
     if (event === "payment.captured") {
-      const paidOrder = await updateOrder(orderId, {
-        payment_status: "paid",
-        shipping_status: "processing",
-      });
-      if (paidOrder) {
-        const fulfilled = await fulfillPaidOrder(paidOrder);
-        await sendPurchaseCapiEvent(fulfilled, req);
+      // Idempotency: only the transition into "paid" runs the CAPI purchase
+      // event and (re-)marks payment status — a duplicate delivery for an
+      // already-paid order is a no-op on that front. But it must NOT be a
+      // no-op on fulfillment: if a previous delivery marked the order paid
+      // and then shipment creation failed, this order still has no
+      // tracking_number, and this retry is exactly the mechanism that's
+      // supposed to finish the job (see the non-2xx return below).
+      const alreadyPaid = existingOrder.payment_status === "paid";
+      let workingOrder = existingOrder;
+
+      if (!alreadyPaid) {
+        workingOrder =
+          (await updateOrder(orderId, {
+            payment_status: "paid",
+            shipping_status: "processing",
+          })) || existingOrder;
       }
+
+      if (!workingOrder.tracking_number) {
+        try {
+          const fulfilled = await fulfillPaidOrder(workingOrder);
+          if (!alreadyPaid) {
+            // Only fire purchase attribution on the actual paid transition —
+            // never re-fire it on a retry that's just catching up a
+            // previously-failed shipment creation.
+            await sendPurchaseCapiEvent(fulfilled, req);
+          }
+        } catch (err) {
+          console.error(
+            "[payment webhook] fulfillment failed; order stays paid, Razorpay should retry this delivery",
+            { order_id: orderId, err }
+          );
+          // Non-2xx: payment stays recorded as "paid" (never rolled back),
+          // but this tells Razorpay the delivery failed so it retries later
+          // — the retry re-enters this branch, finds tracking_number still
+          // null, and attempts fulfillment again (idempotent via
+          // claimOrderForFulfillment in lib/orders/fulfillment.ts).
+          return NextResponse.json(
+            { error: "Order recorded as paid, but shipment creation failed. Will retry." },
+            { status: 502 }
+          );
+        }
+      }
+
+      return NextResponse.json({ ok: true, deduped: alreadyPaid });
     } else if (event === "payment.failed") {
-      await updateOrder(orderId, { payment_status: "payment_failed" });
+      // Never downgrade an order a "payment.captured" delivery (possibly
+      // processed out of order, or by the verify route) already marked paid.
+      if (existingOrder.payment_status !== "paid") {
+        await updateOrder(orderId, { payment_status: "payment_failed" });
+      }
     }
 
     return NextResponse.json({ ok: true });

@@ -88,9 +88,22 @@ export async function POST(req: NextRequest) {
     });
 
     if (paidOrder) {
-      const fulfilled = await fulfillPaidOrder(paidOrder);
-      await sendPurchaseCapiEvent(fulfilled, req);
-      return NextResponse.json({ ok: true, order: fulfilled });
+      try {
+        const fulfilled = await fulfillPaidOrder(paidOrder);
+        await sendPurchaseCapiEvent(fulfilled, req);
+        return NextResponse.json({ ok: true, order: fulfilled });
+      } catch (err) {
+        // Payment is already durably recorded as "paid" above — a shipment
+        // creation failure must never turn into a failed response for the
+        // customer. The order stays "processing" (no tracking number yet);
+        // the webhook's own fulfillment attempt (see
+        // app/api/payment/webhook/route.ts) will retry it.
+        console.error("[payment verify] fulfillment failed; payment already recorded as paid", {
+          order_id,
+          err,
+        });
+        return NextResponse.json({ ok: true, order: paidOrder });
+      }
     }
 
     return NextResponse.json({ ok: true, order: paidOrder });

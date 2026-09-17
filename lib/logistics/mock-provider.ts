@@ -16,12 +16,24 @@ import type { Order } from "@/lib/types";
  * customers — see lib/shipping/mock-national-provider.ts for the equivalent
  * rate-side placeholder.
  */
+// Fixed, recognizable prefix for every AWB this provider generates — the
+// one signal lib/orders/store.ts and lib/orders/fulfillment.ts use to tell
+// "legacy mock shipment, safe to re-fulfill through a real provider" apart
+// from a real courier's AWB, which will never happen to start with this
+// exact literal. Never change this without also handling already-persisted
+// legacy values still carrying the old prefix.
+export const MOCK_AWB_PREFIX = "MOCKAWB";
+
+export function isMockAwb(trackingNumber: string | null | undefined): boolean {
+  return Boolean(trackingNumber?.startsWith(MOCK_AWB_PREFIX));
+}
+
 export class MockLogisticsProvider implements LogisticsProvider {
   readonly name = "mock-logistics";
   readonly status = "MOCKED" as const;
 
   async createShipment(order: Order): Promise<ShipmentResult> {
-    const awb = `MOCKAWB${order.order_id.replace(/[^0-9A-Z]/g, "").slice(-10)}`;
+    const awb = `${MOCK_AWB_PREFIX}${order.order_id.replace(/[^0-9A-Z]/g, "").slice(-10)}`;
     return {
       awb,
       carrier: order.carrier || "Placeholder Carrier (mocked)",

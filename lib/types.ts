@@ -163,6 +163,11 @@ export interface Order {
   shipping_status: OrderStatus;
   tracking_number: string | null;
   carrier: string | null;
+  // Shiprocket's own identifiers for this shipment (null until a real
+  // shipment is created — see lib/logistics/shiprocket-provider.ts), kept
+  // for future tracking/label/cancel calls against Shiprocket's API.
+  shiprocket_order_id: string | null;
+  shiprocket_shipment_id: string | null;
   created_at: string;
   updated_at: string;
   utm_data: OrderAttribution;
