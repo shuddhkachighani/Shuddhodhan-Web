@@ -1,8 +1,20 @@
+import crypto from "node:crypto";
 import dns from "node:dns";
 import { NextResponse } from "next/server";
 import { getSupabaseServerClient, isSupabaseConfigured } from "@/lib/supabase/server-client";
 
 export const dynamic = "force-dynamic"; // never statically cache/prerender this
+
+// TEMPORARY, for diagnosing the production DIAGNOSTICS_ACCESS_KEY mismatch —
+// remove once the mismatch is identified. A SHA-256 digest, never the raw
+// value, its length, or any prefix/suffix. Safe to compare against a local
+// `printf '%s' "$DIAGNOSTICS_ACCESS_KEY" | shasum -a 256` without ever
+// pasting or exposing the key itself. Returns null if unset.
+function fingerprintDiagnosticsAccessKey(): string | null {
+  const key = process.env.DIAGNOSTICS_ACCESS_KEY;
+  if (!key) return null;
+  return crypto.createHash("sha256").update(key).digest("hex");
+}
 
 // Classifies a Postgres/PostgREST error code into a coarse, non-sensitive
 // category. This is in addition to (not instead of) returning the raw code
@@ -118,6 +130,7 @@ export async function GET() {
     supabaseUrlConfigured: Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL),
     supabaseServiceRoleKeyConfigured: Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY),
     diagnosticsAccessKeyConfigured: Boolean(process.env.DIAGNOSTICS_ACCESS_KEY),
+    diagnosticsAccessKeyFingerprint: fingerprintDiagnosticsAccessKey(),
     nodeEnv: process.env.NODE_ENV ?? null,
   };
 
