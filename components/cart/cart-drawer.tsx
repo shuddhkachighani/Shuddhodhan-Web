@@ -1,11 +1,27 @@
 "use client";
 
+import { useEffect } from "react";
 import Link from "next/link";
 import { useCart } from "@/lib/cart/cart-context";
+import { trackViewCart } from "@/lib/analytics/events";
 
 export function CartDrawer() {
   const { isDrawerOpen, closeDrawer, detailedLines, subtotal, updateQuantity, removeItem } =
     useCart();
+
+  useEffect(() => {
+    if (isDrawerOpen && detailedLines.length > 0) {
+      trackViewCart(
+        detailedLines.map((l) => ({
+          id: l.variantId,
+          name: `${l.productName} — ${l.variantSize}`,
+          price: l.sellingPrice,
+          quantity: l.quantity,
+        }))
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isDrawerOpen]);
 
   if (!isDrawerOpen) return null;
 
@@ -41,6 +57,7 @@ export function CartDrawer() {
                     <div className="mt-2 flex items-center gap-2">
                       <div className="flex items-center rounded-full border border-stone">
                         <button
+                          aria-label="Decrease quantity"
                           className="px-2 py-0.5 text-brown-700"
                           onClick={() => updateQuantity(line.variantId, line.quantity - 1)}
                         >
@@ -50,6 +67,7 @@ export function CartDrawer() {
                           {line.quantity}
                         </span>
                         <button
+                          aria-label="Increase quantity"
                           className="px-2 py-0.5 text-brown-700"
                           onClick={() => updateQuantity(line.variantId, line.quantity + 1)}
                         >

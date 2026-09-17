@@ -9,7 +9,7 @@ export function FaqSection() {
   return (
     <section id="faq" className="scroll-mt-16 bg-linen py-16 md:py-20">
       <div className="container-page max-w-3xl">
-        <p className="eyebrow text-mustard">Questions</p>
+        <p className="eyebrow text-mustard-deep">Questions</p>
         <h2 className="mt-3 font-serif text-3xl text-brown-900 sm:text-4xl">
           Frequently asked questions
         </h2>

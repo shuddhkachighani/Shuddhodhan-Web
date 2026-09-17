@@ -9,7 +9,7 @@ export function ProcessSection() {
   return (
     <section id="process" className="scroll-mt-16 bg-warm-white py-16 md:py-20">
       <div className="container-page">
-        <p className="eyebrow text-mustard">Our Process</p>
+        <p className="eyebrow text-mustard-deep">Our Process</p>
         <h2 className="mt-3 max-w-xl font-serif text-3xl text-brown-900 sm:text-4xl">
           From seed to bottle, the traditional way
         </h2>

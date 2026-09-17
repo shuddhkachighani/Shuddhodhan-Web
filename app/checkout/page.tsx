@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { AnnouncementBar } from "@/components/layout/announcement-bar";
@@ -52,8 +52,11 @@ export default function CheckoutPage() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [gatewayNotice, setGatewayNotice] = useState<string | null>(null);
 
+  const initiateCheckoutFired = useRef(false);
+
   useEffect(() => {
-    if (detailedLines.length > 0) {
+    if (detailedLines.length > 0 && !initiateCheckoutFired.current) {
+      initiateCheckoutFired.current = true;
       trackInitiateCheckout(
         detailedLines.map((l) => ({
           id: l.variantId,
@@ -64,7 +67,7 @@ export default function CheckoutPage() {
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [detailedLines.length]);
 
   const estimatedTotal = useMemo(
     () => subtotal + (shippingQuote?.serviceable ? shippingQuote.shipping_amount : 0),
@@ -232,11 +235,11 @@ export default function CheckoutPage() {
 
             <fieldset className="mt-8">
               <legend className="font-serif text-xl text-brown-900">Delivery details</legend>
-              <div className="mt-4 grid gap-4 sm:grid-cols-2">
+              <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <input
                   required
                   placeholder="Full Name"
-                  className="col-span-2 rounded-md border border-stone px-4 py-2.5 text-sm"
+                  className="rounded-md border border-stone px-4 py-2.5 text-sm sm:col-span-2"
                   value={customer.fullName}
                   onChange={(e) => setCustomer({ ...customer, fullName: e.target.value })}
                 />
@@ -260,7 +263,7 @@ export default function CheckoutPage() {
                 <input
                   required
                   placeholder="Address"
-                  className="col-span-2 rounded-md border border-stone px-4 py-2.5 text-sm"
+                  className="rounded-md border border-stone px-4 py-2.5 text-sm sm:col-span-2"
                   value={customer.address}
                   onChange={(e) => setCustomer({ ...customer, address: e.target.value })}
                 />

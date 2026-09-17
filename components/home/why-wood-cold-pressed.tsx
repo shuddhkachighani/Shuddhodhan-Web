@@ -20,7 +20,7 @@ export function WhyWoodColdPressed() {
   return (
     <section className="bg-linen py-16 md:py-20">
       <div className="container-page">
-        <p className="eyebrow text-mustard">The Difference</p>
+        <p className="eyebrow text-mustard-deep">The Difference</p>
         <h2 className="mt-3 max-w-xl font-serif text-3xl text-brown-900 sm:text-4xl">
           Why wood cold pressed?
         </h2>

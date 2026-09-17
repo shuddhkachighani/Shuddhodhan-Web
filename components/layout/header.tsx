@@ -9,7 +9,7 @@ const NAV_LINKS = [
   { href: "/oils", label: "Shop Oils" },
   { href: "/#process", label: "Our Process" },
   { href: "/#reviews", label: "Reviews" },
-  { href: "/#faq", label: "FAQ" },
+  { href: "/faqs", label: "FAQ" },
 ];
 
 export function Header() {

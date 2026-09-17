@@ -4,6 +4,7 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { products } from "@/lib/data/products";
 import { ProductCard } from "@/components/product/product-card";
+import { ViewCategoryTracker } from "@/components/product/view-category-tracker";
 
 export const metadata: Metadata = {
   title: "Shop All Oils",
@@ -17,12 +18,13 @@ export default function OilsPage() {
 
   return (
     <>
+      <ViewCategoryTracker products={activeProducts} listName="All Oils" />
       <AnnouncementBar />
       <Header />
       <main>
         <section className="bg-cream py-12 md:py-16">
           <div className="container-page">
-            <p className="eyebrow text-mustard">Shop</p>
+            <p className="eyebrow text-mustard-deep">Shop</p>
             <h1 className="mt-3 font-serif text-4xl text-brown-900">All Oils</h1>
             <p className="mt-2 max-w-lg text-brown-700">
               Wood cold pressed, Kachi Ghani process. MRP and selling price shown

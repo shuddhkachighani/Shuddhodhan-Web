@@ -8,7 +8,7 @@ export function ProductStore() {
       <div className="container-page">
         <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-end">
           <div>
-            <p className="eyebrow text-mustard">Our Oils</p>
+            <p className="eyebrow text-mustard-deep">Our Oils</p>
             <h2 className="mt-3 font-serif text-3xl text-brown-900 sm:text-4xl">
               Wood cold pressed, one bottle at a time
             </h2>

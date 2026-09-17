@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { siteSettings } from "@/lib/data/settings";
+import { CookiePreferencesButton } from "@/components/consent/cookie-preferences-button";
 
 const SHOP_LINKS = [
   { href: "/oils/groundnut-oil", label: "Groundnut Oil" },
@@ -15,7 +16,7 @@ const DISCOVER_LINKS = [
   { href: "/", label: "Our Story" },
   { href: "/#process", label: "Our Process" },
   { href: "/#reels", label: "See Shuddhodhan in Action" },
-  { href: "/#faq", label: "FAQs" },
+  { href: "/faqs", label: "FAQs" },
   { href: "/contact", label: "Contact Us" },
 ];
 
@@ -130,6 +131,8 @@ export function Footer() {
           {legal.gstin && <p>GSTIN: {legal.gstin}</p>}
           <p className="pt-2">
             © {new Date().getFullYear()} {siteSettings.brandName}. All rights reserved.
+            {" · "}
+            <CookiePreferencesButton />
           </p>
         </div>
       </div>
