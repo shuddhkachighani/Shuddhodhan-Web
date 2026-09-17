@@ -117,6 +117,7 @@ export async function GET() {
   const base = {
     supabaseUrlConfigured: Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL),
     supabaseServiceRoleKeyConfigured: Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY),
+    diagnosticsAccessKeyConfigured: Boolean(process.env.DIAGNOSTICS_ACCESS_KEY),
     nodeEnv: process.env.NODE_ENV ?? null,
   };
 
