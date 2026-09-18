@@ -1,6 +1,7 @@
 import crypto from "node:crypto";
 import dns from "node:dns";
 import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 import { getSupabaseServerClient, isSupabaseConfigured } from "@/lib/supabase/server-client";
 
 export const dynamic = "force-dynamic"; // never statically cache/prerender this
@@ -123,7 +124,7 @@ async function probeNetwork(): Promise<NetworkProbeResult> {
   return result;
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   const networkProbe = await probeNetwork();
 
   const base = {
@@ -131,6 +132,12 @@ export async function GET() {
     supabaseServiceRoleKeyConfigured: Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY),
     diagnosticsAccessKeyConfigured: Boolean(process.env.DIAGNOSTICS_ACCESS_KEY),
     diagnosticsAccessKeyFingerprint: fingerprintDiagnosticsAccessKey(),
+    // TEMPORARY, alongside the fingerprint above — isolates whether the
+    // x-diagnostics-key header is reaching this Next.js process at all
+    // (e.g. stripped by a proxy/CDN layer) versus a value mismatch once
+    // it arrives. Never exposes the header's value, length, or any other
+    // property — presence only.
+    diagnosticsHeaderPresent: Boolean(req.headers.get("x-diagnostics-key")),
     nodeEnv: process.env.NODE_ENV ?? null,
   };
 
