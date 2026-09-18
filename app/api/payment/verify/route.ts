@@ -100,7 +100,8 @@ export async function POST(req: NextRequest) {
         // app/api/payment/webhook/route.ts) will retry it.
         console.error("[payment verify] fulfillment failed; payment already recorded as paid", {
           order_id,
-          err,
+          errName: err instanceof Error ? err.name : typeof err,
+          errMessage: err instanceof Error ? err.message : String(err),
         });
         return NextResponse.json({ ok: true, order: paidOrder });
       }

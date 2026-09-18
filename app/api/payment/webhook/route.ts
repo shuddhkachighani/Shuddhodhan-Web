@@ -64,7 +64,11 @@ export async function POST(req: NextRequest) {
         } catch (err) {
           console.error(
             "[payment webhook] fulfillment failed; order stays paid, Razorpay should retry this delivery",
-            { order_id: orderId, err }
+            {
+              order_id: orderId,
+              errName: err instanceof Error ? err.name : typeof err,
+              errMessage: err instanceof Error ? err.message : String(err),
+            }
           );
           // Non-2xx: payment stays recorded as "paid" (never rolled back),
           // but this tells Razorpay the delivery failed so it retries later
