@@ -3,6 +3,8 @@ import { LegalPageLayout, type LegalSection } from "@/components/legal/legal-pag
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
+  description:
+    "How Shuddhodhan collects, uses and protects your personal information when you browse or order from this website.",
   robots: { index: false },
 };
 

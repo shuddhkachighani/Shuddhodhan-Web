@@ -3,6 +3,8 @@ import { LegalPageLayout, type LegalSection } from "@/components/legal/legal-pag
 
 export const metadata: Metadata = {
   title: "Terms & Conditions",
+  description:
+    "The terms and conditions that apply when you browse the Shuddhodhan website or place an order for our wood cold pressed oils.",
   robots: { index: false },
 };
 

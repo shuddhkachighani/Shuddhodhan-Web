@@ -44,6 +44,9 @@ export default function ContactPage() {
         contact.whatsappDefaultMessage
       )}`
     : "";
+  // Stored as E.164 without "+" (country code + 10-digit number) for the
+  // wa.me link; displayed to the customer as just the local 10-digit number.
+  const whatsappDisplayNumber = contact.whatsappNumber.slice(-10);
 
   return (
     <>
@@ -71,7 +74,7 @@ export default function ContactPage() {
                 <ContactRow label="Phone" value={contact.supportPhone} href={contact.supportPhone ? `tel:${contact.supportPhone}` : undefined} />
                 <ContactRow
                   label="WhatsApp"
-                  value={contact.whatsappNumber}
+                  value={whatsappDisplayNumber}
                   href={whatsappHref || undefined}
                 />
                 <ContactRow

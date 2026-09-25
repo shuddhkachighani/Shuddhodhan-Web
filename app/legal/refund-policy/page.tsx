@@ -3,19 +3,26 @@ import { LegalPageLayout, type LegalSection } from "@/components/legal/legal-pag
 
 export const metadata: Metadata = {
   title: "Refund, Return & Cancellation Policy",
+  description:
+    "Shuddhodhan's policy on order cancellations, returns and refunds, including for damaged, leaking, incorrect or missing products.",
   robots: { index: false },
 };
 
 const sections: LegalSection[] = [
   {
+    id: "scope",
+    heading: "What this policy covers",
+    body: "This policy covers cancellations, returns and refunds for orders that were successfully placed and paid for. If a payment failed or was not completed, no order was placed on our side — see the Payment Policy for what happens to a failed or reversed payment.",
+  },
+  {
     id: "cancellation-before-dispatch",
     heading: "Cancellation before dispatch",
-    body: "Structure pending: the window and process for cancelling an order before it ships will be specified here.",
+    body: "If your order has not yet been dispatched, contact us as soon as possible with your order number to request cancellation. Structure pending: the exact cut-off point and process for a before-dispatch cancellation will be specified here.",
   },
   {
     id: "cancellation-after-dispatch",
     heading: "Cancellation after dispatch",
-    body: "Structure pending: how a cancellation request is handled once an order has already shipped will be specified here.",
+    body: "Once an order has been dispatched, it can no longer be cancelled. If you no longer want the order after it arrives, the return conditions below apply. Structure pending: any further process specific to an after-dispatch request will be specified here.",
   },
   {
     id: "damaged-product",

@@ -3,6 +3,8 @@ import { LegalPageLayout, type LegalSection } from "@/components/legal/legal-pag
 
 export const metadata: Metadata = {
   title: "Shipping Policy",
+  description:
+    "How Shuddhodhan determines delivery availability, shipping charges within and outside Indore, and delivery timelines.",
   robots: { index: false },
 };
 
@@ -15,7 +17,7 @@ const sections: LegalSection[] = [
   {
     id: "indore-delivery",
     heading: "Indore local delivery",
-    body: "Local delivery within serviceable Indore pincodes follows a configurable rule set (enabled/disabled, flat rate or free-above-threshold). The exact serviceable pincodes and rate are set by Shuddhodhan and shown at checkout.",
+    body: "Orders delivered within our serviceable Indore pincodes are eligible for free delivery when the order value is ₹1,000 or more. Orders below ₹1,000 carry a local delivery charge (currently a flat ₹99), shown clearly at checkout before you pay. The exact serviceable Indore pincodes are set by Shuddhodhan and checked at checkout.",
   },
   {
     id: "outside-indore",
