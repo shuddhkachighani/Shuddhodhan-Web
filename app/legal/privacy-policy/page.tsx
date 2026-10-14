@@ -12,17 +12,17 @@ const sections: LegalSection[] = [
   {
     id: "information-collected",
     heading: "Information we collect",
-    body: "Structure pending: details of the personal information collected at checkout and while browsing (e.g. name, contact details, delivery address, order history) will be listed here once finalized.",
+    body: "When you place an order, we collect the information you provide at checkout: your name, mobile number, email address, and delivery address (including city, state, pincode and any landmark). If you use Track Order or Contact Us, we collect your order number, mobile number, and any message or details you provide us.",
   },
   {
     id: "purpose-of-collection",
     heading: "Purpose of collection",
-    body: "Structure pending: the specific purposes for which information is used will be listed here — fulfilling orders, customer support, and legally required record-keeping among them.",
+    body: "We use this information to fulfil your order (payment verification, shipment and delivery), to provide customer support and handle any query or complaint, and to keep the records we are legally required to keep. See “Analytics” and “Meta advertising” below for the separate, consent-based purposes those specific technologies are used for.",
   },
   {
     id: "order-processing",
     heading: "Order processing",
-    body: "Structure pending: how order and delivery details are used to process, ship and confirm your order.",
+    body: "Your order and delivery details are used to verify payment, prepare your shipment, and share the necessary delivery information with our logistics/courier partner (see “Shipping and logistics” below) so your order can reach you. You can check your order's status at any time on the Track Order page.",
   },
   {
     id: "payment-processing",
@@ -44,7 +44,7 @@ const sections: LegalSection[] = [
     heading: "Meta advertising",
     body: [
       "If you accept cookies via the on-site cookie consent banner, we use the Meta (Facebook/Instagram) Pixel, once configured for this site, to measure the performance of our advertising and to capture attribution information (such as campaign parameters and Meta's own click identifiers) for that purpose. The Meta Pixel does not load, and no browser-based tracking data is collected, unless you accept cookies. You can change your choice at any time using the “Cookie Preferences” link in the site footer.",
-      "Separately, when you complete a purchase, limited order details (such as a cryptographically hashed version of your email address or phone number) may be shared with Meta through a server-side Conversions API, to help measure advertising effectiveness, independent of the cookie banner described above. Structure pending: the legal basis and further detail for this specific processing will be reviewed and added here.",
+      "Separately, when you complete a purchase, limited order details (such as a cryptographically hashed version of your email address or phone number) may be shared with Meta through a server-side Conversions API, to help measure the effectiveness of the advertising that may have led to your order — independent of the cookie banner described above, since it runs after checkout rather than in your browser.",
     ],
   },
   {
@@ -55,17 +55,17 @@ const sections: LegalSection[] = [
   {
     id: "third-party-providers",
     heading: "Third-party service providers",
-    body: "Structure pending: the categories of third-party providers we work with (payment gateway, logistics, analytics, hosting) will be listed here.",
+    body: "We share information with third parties only as needed to run this website and fulfil your order: our payment gateway (Razorpay) to process payment, our logistics/courier partner to deliver your order, our database provider (Supabase) to store order records, and — only if you accept cookies — our analytics and advertising providers (Google Analytics, Meta) described above.",
   },
   {
     id: "data-retention",
     heading: "Data retention",
-    body: "Structure pending: how long different categories of data are retained will be specified here, consistent with applicable law.",
+    body: "We keep your order and account information for as long as needed to fulfil your order, meet our tax and legal record-keeping obligations, and resolve any dispute or complaint, after which it may be deleted.",
   },
   {
     id: "customer-rights",
     heading: "Your rights and choices",
-    body: "Structure pending: how you can access, correct or request deletion of your personal information will be described here.",
+    body: "You can ask us to review, correct or delete the personal information you have given us by contacting us via Contact Us or our Grievance Officer (see Grievance Redressal), quoting your order number where applicable. We will respond within a reasonable time.",
   },
   {
     id: "contact-information",

@@ -24,6 +24,7 @@ function OfficerField({ label, value }: { label: string; value: string }) {
 export default function GrievanceRedressalPage() {
   const officer = siteSettings.grievanceOfficer;
   const officerConfigured = Boolean(officer.name);
+  const { legal, contact } = siteSettings;
 
   return (
     <>
@@ -46,6 +47,23 @@ export default function GrievanceRedressalPage() {
 
         <div className="container-page max-w-3xl py-10 md:py-14">
           <div className="rounded-lg border border-stone/60 p-6">
+            <h2 className="font-serif text-xl text-brown-900">Business &amp; Legal Details</h2>
+            <dl className="mt-4 grid gap-4 sm:grid-cols-2">
+              <OfficerField label="Legal entity" value={legal.entityName} />
+              <OfficerField label="FSSAI licence no." value={legal.fssaiLicenseNumber} />
+              <OfficerField label="GSTIN" value={legal.gstin} />
+              <div className="sm:col-span-2">
+                <OfficerField
+                  label="Registered / business address"
+                  value={legal.registeredAddress || siteSettings.location}
+                />
+              </div>
+              <OfficerField label="Customer support phone" value={contact.supportPhone} />
+              <OfficerField label="Customer support email" value={contact.supportEmail} />
+            </dl>
+          </div>
+
+          <div className="mt-8 rounded-lg border border-stone/60 p-6">
             <h2 className="font-serif text-xl text-brown-900">Grievance Officer</h2>
             {!officerConfigured && (
               <p className="mt-2 text-sm text-brown-500">
@@ -90,8 +108,10 @@ export default function GrievanceRedressalPage() {
                 How complaints are acknowledged
               </h2>
               <p className="mt-2 text-sm text-brown-700">
-                Structure pending: our acknowledgement timeline and process
-                will be specified here once finalized.
+                We will acknowledge your complaint within 48 hours of
+                receiving it, confirming we have it and asking for any
+                further details we need — such as your order number and,
+                for a product issue, photos.
               </p>
             </div>
 
@@ -100,8 +120,12 @@ export default function GrievanceRedressalPage() {
                 Expected resolution process
               </h2>
               <p className="mt-2 text-sm text-brown-700">
-                Structure pending: our resolution process and expected
-                timeline will be specified here once finalized.
+                We review each complaint against our published policies —
+                including the Refund, Return &amp; Cancellation Policy for a
+                product or order issue — and aim to resolve it within the
+                period required under applicable consumer protection law.
+                More complex complaints may take longer to investigate than
+                straightforward ones; we will keep you informed of progress.
               </p>
             </div>
 

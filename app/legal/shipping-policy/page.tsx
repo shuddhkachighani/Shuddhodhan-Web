@@ -45,7 +45,10 @@ const sections: LegalSection[] = [
   {
     id: "exceptions",
     heading: "Delivery exceptions and delays",
-    body: "Structure pending: our process for handling delivery exceptions (failed delivery attempts, courier delays, address issues) will be specified here.",
+    body: [
+      "Delivery can occasionally be delayed or fail to complete for reasons including: an incorrect or incomplete delivery address, the customer being unavailable at the time of delivery, refusal to accept the shipment, a failed delivery attempt by the courier, serviceability or logistics limitations at the destination pincode, or events outside our reasonable control (such as courier network disruptions, weather, or local restrictions).",
+      "If a delivery cannot be completed for one of these reasons, we or our courier partner will generally attempt to reschedule delivery or get in touch using the contact details provided at checkout. Please keep your contact number reachable and your delivery address accurate to avoid delays.",
+    ],
   },
 ];
 

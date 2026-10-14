@@ -17,12 +17,12 @@ const sections: LegalSection[] = [
   {
     id: "cancellation-before-dispatch",
     heading: "Cancellation before dispatch",
-    body: "If your order has not yet been dispatched, contact us as soon as possible with your order number to request cancellation. Structure pending: the exact cut-off point and process for a before-dispatch cancellation will be specified here.",
+    body: "You may cancel your order at any time before it has been dispatched. Contact us as soon as possible with your order number to request cancellation.",
   },
   {
     id: "cancellation-after-dispatch",
     heading: "Cancellation after dispatch",
-    body: "Once an order has been dispatched, it can no longer be cancelled. If you no longer want the order after it arrives, the return conditions below apply. Structure pending: any further process specific to an after-dispatch request will be specified here.",
+    body: "Once your order has been dispatched, it can no longer be cancelled through this process. If there is an eligible issue with the order after it arrives — such as a damaged, incorrect, missing or quality-affected product — see “Reporting an eligible issue” below.",
   },
   {
     id: "damaged-product",
@@ -52,34 +52,32 @@ const sections: LegalSection[] = [
   {
     id: "spoilage",
     heading: "Spoilage or quality issue",
-    body: "Structure pending: our process for handling spoilage or quality issues reported after delivery will be specified here.",
+    body: "If you notice a spoilage or quality issue with a product, report it within 48 hours of delivery as described in “Reporting an eligible issue” above.",
   },
   {
     id: "refund-process",
     heading: "Refund process",
-    body: "Structure pending: the refund process and method (e.g. refund to original payment method) will be specified here.",
+    body: "When a refund is due under this policy, it is issued to your original payment method — never as cash or store credit, consistent with online-payment-only checkout.",
   },
   {
-    id: "replacement-process",
-    heading: "Replacement process",
-    body: "Structure pending: the process for replacing a defective, damaged or incorrect item will be specified here.",
-  },
-  {
-    id: "evidence-required",
-    heading: "Evidence required",
-    body: "For damage, leakage, wrong-item or missing-item claims, we will generally ask for your order number and photo evidence to process a resolution quickly.",
+    id: "issue-reporting-window",
+    heading: "Reporting an eligible issue",
+    body: [
+      "Eligible issues — such as a damaged, leaking, incorrect, missing or quality-affected product — must be reported within 48 hours of delivery.",
+      "To help us verify and resolve your report, we may ask for your order number and photos of the product and its packaging. Reporting an issue does not automatically mean it qualifies for a refund or replacement — each report is reviewed against this policy.",
+    ],
   },
   {
     id: "refund-timeline",
     heading: "Refund timeline",
-    body: "Structure pending: the expected timeline for processing an approved refund will be specified here once confirmed with our payment gateway.",
+    body: "Once a refund is approved under this policy, the refund will be initiated within 15 days. Not every order or report is automatically eligible for a refund — eligibility is assessed against this policy first. We do not control how long your bank or payment provider then takes to reflect an initiated refund in your account.",
   },
   {
     id: "non-returnable",
-    heading: "Non-returnable conditions",
+    heading: "Returns for change of mind",
     body: [
-      "Given the nature of packaged edible and topical oils, unopened and unused products in their original condition may be eligible for return within a defined window (to be specified), while opened or used products are generally not eligible for return for hygiene and safety reasons — except where the product itself is defective, damaged, incorrect or otherwise non-conforming.",
-      "This policy does not limit your statutory rights as a consumer for defective, damaged, incorrect or non-conforming products.",
+      "As these are food and grocery products, change-of-mind returns — for example, if you no longer want an item, ordered the wrong thing by mistake, or simply changed your preference — are not accepted, whether or not the product has been opened. There is no general return window for these products.",
+      "This is separate from reporting an eligible issue: a damaged, incorrect, missing or quality-affected product should be reported within 48 hours of delivery under “Reporting an eligible issue” above, and this policy does not limit your statutory rights as a consumer for a defective, damaged, incorrect or otherwise non-conforming product.",
     ],
   },
 ];
